@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "661492534080",
+    "firebase_url": "https://bffy-jk74.firebaseio.com",
+    "project_id": "bffy-jk74",
+    "storage_bucket": "bffy-jk74.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:661492534080:android:c13887d2d0c1f7a7",
+        "android_client_info": {
+          "package_name": "com.apps.reina.juddy.bffyadmin"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "661492534080-eoot992prjukh4o9shfea7ajn1lckag1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.apps.reina.juddy.bffyadmin",
+            "certificate_hash": "54b6bb45354acc0931158ace56035e4b0ba54495"
+          }
+        },
+        {
+          "client_id": "661492534080-3as5dmk1gu6nun1ej3kpuj23en5i2vla.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCBhUISDuRQvX8y1b-4B2tgj63YA9lKWi4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "661492534080-3as5dmk1gu6nun1ej3kpuj23en5i2vla.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
