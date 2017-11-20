@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.apps.reina.juddy.bffyadmin.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,18 +42,15 @@ public class ingredienteAdapter extends BaseAdapter implements ListAdapter {
     public View getView(final int position, View convertView, ViewGroup parent) {
         View view = convertView;
         if (view == null) {
-            /*
+
             LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.item_posgrado, null);
-            */
+            view = inflater.inflate(R.layout.adapter_ingrediente, null);
+
         }
 
         //Handle TextView and display string from your list
-        /*
-            TextView itemName = (TextView)view.findViewById(R.id.titulo);
-
+            TextView itemName =view.findViewById(R.id.tv_nombre);
             itemName.setText(list.get(position).getNombre());
-        */
 
         return view;
     }

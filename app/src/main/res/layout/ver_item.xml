@@ -6,6 +6,22 @@
     android:orientation="vertical"
     >
 
+
+    <LinearLayout
+        android:id="@+id/ll_item_8"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/item_8"
+            />
+        <TextView
+            android:id="@+id/tv_item_8"
+            style="@style/table_textBox2"
+            android:text="@string/value"
+            />
+    </LinearLayout>
+
     <LinearLayout
         android:id="@+id/ll_item_1"
         style="@style/linear_values_3"
@@ -16,21 +32,6 @@
             />
         <TextView
             android:id="@+id/tv_item_1"
-            style="@style/table_textBox2"
-            android:text="@string/value"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/ll_item_2"
-        style="@style/linear_values_3"
-        >
-        <TextView
-            style="@style/table_textBox1"
-            android:text="@string/item_2"
-            />
-        <TextView
-            android:id="@+id/tv_item_2"
             style="@style/table_textBox2"
             android:text="@string/value"
             />
@@ -52,15 +53,15 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/ll_item_4"
+        android:id="@+id/ll_item_7"
         style="@style/linear_values_3"
         >
         <TextView
             style="@style/table_textBox1"
-            android:text="@string/item_4"
+            android:text="@string/item_7"
             />
         <TextView
-            android:id="@+id/tv_item_4"
+            android:id="@+id/tv_item_7"
             style="@style/table_textBox2"
             android:text="@string/value"
             />
@@ -91,6 +92,51 @@
             />
         <TextView
             android:id="@+id/tv_item_6"
+            style="@style/table_textBox2"
+            android:text="@string/value"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_item_9"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/item_9"
+            />
+        <TextView
+            android:id="@+id/tv_item_9"
+            style="@style/table_textBox2"
+            android:text="@string/value"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_item_2"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/item_2"
+            />
+        <TextView
+            android:id="@+id/tv_item_2"
+            style="@style/table_textBox2"
+            android:text="@string/value"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_item_4"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/item_4"
+            />
+        <TextView
+            android:id="@+id/tv_item_4"
             style="@style/table_textBox2"
             android:text="@string/value"
             />

@@ -16,6 +16,9 @@ public class item {
     private String linea_atencion;
     private String nacional;
     private String empaque;
+    private String conservantes;
+    private String sabor;
+    private String apto_para;
 
     public item() {
         this.informacion = new tabla_general();
@@ -25,6 +28,9 @@ public class item {
         this.linea_atencion = "none";
         this.nacional = "none";
         this.empaque = "none";
+        this.sabor="none";
+        this.conservantes="none";
+        this.apto_para="none";
         this.id=0;
     }
 
@@ -90,5 +96,29 @@ public class item {
 
     public void setEmpaque(String empaque) {
         this.empaque = empaque;
+    }
+
+    public String getConservantes() {
+        return conservantes;
+    }
+
+    public void setConservantes(String conservantes) {
+        this.conservantes = conservantes;
+    }
+
+    public String getSabor() {
+        return sabor;
+    }
+
+    public void setSabor(String sabor) {
+        this.sabor = sabor;
+    }
+
+    public String getApto_para() {
+        return apto_para;
+    }
+
+    public void setApto_para(String apto_para) {
+        this.apto_para = apto_para;
     }
 }

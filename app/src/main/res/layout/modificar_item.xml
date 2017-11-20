@@ -1,11 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     >
 
+
+    <LinearLayout
+        android:id="@+id/llM_item_8"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/item_8"
+            />
+        <Spinner
+            android:id="@+id/spn_item_8"
+            style="@style/spn_txtBox2"
+            android:entries="@array/sabor"
+            />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/llM_item_1"
@@ -15,28 +31,15 @@
             style="@style/table_textBox1"
             android:text="@string/item_1"
             />
-        <EditText
-            android:inputType="textMultiLine|text"
-            android:id="@+id/et_item_1"
-            style="@style/table_textBox2"
-            android:hint="@string/value"
-            />
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/llM_item_2"
-        style="@style/linear_values_3"
-        >
         <TextView
-            style="@style/table_textBox1"
-            android:text="@string/item_2"
-            />
-        <EditText
-            android:id="@+id/et_item_2"
+            android:id="@+id/tv_item_1"
             style="@style/table_textBox2"
-            android:hint="@string/value"
-            android:inputType="textPersonName"
+            android:text="@string/value"
+            android:inputType="textMultiLine"
+            android:minWidth="150dp"
+            android:minHeight="@dimen/icon"
             />
+
     </LinearLayout>
 
     <LinearLayout
@@ -62,18 +65,32 @@
     </LinearLayout>
 
     <LinearLayout
-        android:id="@+id/llM_item_4"
+        android:id="@+id/llM_item_7"
         style="@style/linear_values_3"
         >
         <TextView
             style="@style/table_textBox1"
-            android:text="@string/item_4"
+            android:text="@string/item_7"
             />
-        <EditText
-            android:inputType="phone"
-            android:id="@+id/et_item_4"
-            style="@style/table_textBox2"
-            android:hint="@string/value"
+        <Spinner
+            android:id="@+id/spn_item_7"
+            style="@style/spn_txtBox2"
+            android:entries="@array/conservantes"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llM_item_9"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/item_9"
+            />
+        <Spinner
+            android:id="@+id/spn_item_9"
+            style="@style/spn_txtBox2"
+            android:entries="@array/apto_para"
             />
     </LinearLayout>
 
@@ -106,5 +123,38 @@
             android:entries="@array/empaque"
             />
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llM_item_2"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/item_2"
+            />
+        <EditText
+            android:id="@+id/et_item_2"
+            style="@style/table_textBox2"
+            android:hint="@string/value"
+            android:inputType="textPersonName"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llM_item_4"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/item_4"
+            />
+        <EditText
+            android:inputType="phone"
+            android:id="@+id/et_item_4"
+            style="@style/table_textBox2"
+            android:hint="@string/value"
+            />
+    </LinearLayout>
+
 
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,17 +13,25 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.apps.reina.juddy.bffyadmin.R;
+import com.apps.reina.juddy.bffyadmin.data.ingrediente;
+import com.apps.reina.juddy.bffyadmin.dialog.addIngrediente;
 
-public class agregar extends AppCompatActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class agregar extends AppCompatActivity implements addIngrediente.ingredienteListener{
 
     Spinner spn_categoria1,spn_categoria2,spn_sub_categoria1,spn_sub_categoria2,spn_sub_categoria3,spn_sub_categoria4;
-    Spinner spn_producto,spn_empaque,spn_unidad;
-    EditText et_nombre,et_propiedad_1,et_propiedad_2,et_ingredientes,et_fabricante,et_gramaje,et_lineAtencion;
+    Spinner spn_producto,spn_empaque,spn_unidad,spn_conservantes,spn_sabor,spn_apto_para;
+    EditText et_nombre,et_propiedad_1,et_propiedad_2,et_fabricante,et_gramaje,et_lineAtencion;
+    TextView tv_ingredientes;
     Button btn_guardar;
     LinearLayout rl_fragment;
 
+    List<ingrediente> lista_ingredientes;
     int selCat1=0,selCat2=0,selSubCat1=0,selSubCat2=0,selSubCat3=0,selSubCat4=0;
 
     @Override
@@ -51,13 +60,18 @@ public class agregar extends AppCompatActivity {
         et_propiedad_1=findViewById(R.id.et_propiedad_1);
         et_propiedad_2=findViewById(R.id.et_propiedad_2);
 
-        et_ingredientes=findViewById(R.id.et_item_1);
+        tv_ingredientes=findViewById(R.id.tv_item_1);
         et_fabricante=findViewById(R.id.et_item_2);
         et_gramaje=findViewById(R.id.et_item_3);
         et_lineAtencion=findViewById(R.id.et_item_4);
         spn_producto=findViewById(R.id.spn_item_5);
         spn_empaque=findViewById(R.id.spn_item_6);
         spn_unidad=findViewById(R.id.spn_item_3_1);
+        spn_conservantes=findViewById(R.id.spn_item_7);
+        spn_sabor=findViewById(R.id.spn_item_8);
+        spn_apto_para=findViewById(R.id.spn_item_9);
+
+        lista_ingredientes=new ArrayList<>();
 
         //SELECCION CATEGORIA 1
         spn_categoria1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -554,19 +568,44 @@ public class agregar extends AppCompatActivity {
             }
         });
 
+        tv_ingredientes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialog = new addIngrediente();
+
+                ArrayList<String> ingrs=new ArrayList<>();
+                ingrs.clear();
+                for(int i = 0; i<lista_ingredientes.size(); i++){
+                    ingrs.add(lista_ingredientes.get(i).getNombre());
+                }
+                if(ingrs.isEmpty()){
+                    ingrs.add("none");
+                }
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("lista",ingrs);
+                dialog.setArguments(bundle);
+
+                dialog.show(getSupportFragmentManager(), getResources().getString(R.string.item_1));
+            }
+        });
+
     }
 
     void limpiar_interfaz(){
         et_propiedad_1.setText("");
         et_propiedad_2.setText("");
 
-        et_ingredientes.setText("");
+        tv_ingredientes.setText("");
         et_fabricante.setText("");
         et_gramaje.setText("");
         et_lineAtencion.setText("");
         spn_producto.setSelection(0);
         spn_empaque.setSelection(0);
         spn_unidad.setSelection(0);
+        spn_conservantes.setSelection(0);
+        spn_sabor.setSelection(0);
+        spn_apto_para.setSelection(0);
+
     }
 
     @Override
@@ -579,5 +618,29 @@ public class agregar extends AppCompatActivity {
                 return super.onOptionsItemSelected(item);
 
         }
+    }
+
+    @Override
+    public void on_addIngrediente_Positive(DialogFragment dialog, List<ingrediente> lst) {
+        //ACTUALIZAR LISTA DE INGREDIENTES
+        lista_ingredientes.clear();
+        lista_ingredientes=lst;
+
+        //SE CARGA EL STRING QUE MUESTRA LOS INGREDIENTES
+        StringBuilder auxiliarBuilder = new StringBuilder();
+        for(int i = 0; i<lista_ingredientes.size()-1; i++){
+            auxiliarBuilder.append(lista_ingredientes.get(i).getNombre()).append(", ");
+        }
+        String auxiliar = auxiliarBuilder.toString();
+        auxiliar=auxiliar+lista_ingredientes.get(lst.size()-1).getNombre();
+
+        tv_ingredientes.setText(auxiliar);
+
+        dialog.dismiss();
+    }
+
+    @Override
+    public void on_addIngrediente_Negative(DialogFragment dialog) {
+        dialog.dismiss();
     }
 }

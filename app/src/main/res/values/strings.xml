@@ -19,6 +19,11 @@
     <string name="delete">ELIMINAR</string>
     <string name="look">BUSCAR</string>
 
+    <string name="general_ok">Guardar Cambios</string>
+    <string name="general_no_ok">Cancelar</string>
+
+    <string name="toast_ingredientes_ok">Ingredientes agregados</string>
+    <string name="toast_ingredientes_empty">No agrego ningun ingrediente</string>
 
     <string name="table">TABLA NUTRICIONAL</string>
     <string name="table_propiedad_1">PROPIEDAD: </string>
@@ -30,6 +35,9 @@
     <string name="item_4">LINEA DE ATENCION: </string>
     <string name="item_5">PRODUCTO: </string>
     <string name="item_6">EMPAQUE: </string>
+    <string name="item_7">CONSERVANTES: </string>
+    <string name="item_8">SABOR: </string>
+    <string name="item_9">APTO PARA: </string>
 
     <string name="name_pro">nombre del producto </string>
 
@@ -194,6 +202,33 @@
         <item>Nacional</item>
     </string-array>
 
+    <string-array name="sabor">
+        <item>ESCOGER</item>
+        <item>Dulce</item>
+        <item>Salado</item>
+        <item>Neutro</item>
+    </string-array>
+
+    <string-array name="apto_para">
+        <item>ESCOGER</item>
+        <item>Adultos</item>
+        <item>Niños</item>
+        <item>Adultos y Niños</item>
+    </string-array>
+
+
+    <string-array name="general_si_no">
+        <item>ESCOGER</item>
+        <item>Si</item>
+        <item>No</item>
+    </string-array>
+
+    <string-array name="conservantes">
+        <item>ESCOGER</item>
+        <item>Naturales</item>
+        <item>Artificiales</item>
+        <item>Ninguno</item>
+    </string-array>
 
     <string-array name="empaque">
         <item>ESCOGER</item>

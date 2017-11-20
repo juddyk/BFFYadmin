@@ -12,6 +12,8 @@
     <dimen name="btn_heigh_1">35dp</dimen>
     <dimen name="btn_width_2">160dp</dimen>
 
+    <dimen name="txt_15sz">15dp</dimen>
+
     <dimen name="linear_margen">15dp</dimen>
     <dimen name="linear_margen2">25dp</dimen>
     <dimen name="linear_margen3">20dp</dimen>
