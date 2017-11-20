@@ -18,7 +18,8 @@ import com.apps.reina.juddy.bffyadmin.R;
 public class agregar extends AppCompatActivity {
 
     Spinner spn_categoria1,spn_categoria2,spn_sub_categoria1,spn_sub_categoria2,spn_sub_categoria3,spn_sub_categoria4;
-    EditText et_nombre;
+    Spinner spn_producto,spn_empaque,spn_unidad;
+    EditText et_nombre,et_propiedad_1,et_propiedad_2,et_ingredientes,et_fabricante,et_gramaje,et_lineAtencion;
     Button btn_guardar;
     LinearLayout rl_fragment;
 
@@ -42,9 +43,21 @@ public class agregar extends AppCompatActivity {
         spn_sub_categoria2=findViewById(R.id.spnADD_subcatgeoria_2);
         spn_sub_categoria3=findViewById(R.id.spnADD_subcatgeoria_3);
         spn_sub_categoria4=findViewById(R.id.spnADD_subcatgeoria_4);
+
         et_nombre=findViewById(R.id.etADD_nombre);
         btn_guardar=findViewById(R.id.btnADD_guardar);
         rl_fragment=findViewById(R.id.ll_agregar);
+
+        et_propiedad_1=findViewById(R.id.et_propiedad_1);
+        et_propiedad_2=findViewById(R.id.et_propiedad_2);
+
+        et_ingredientes=findViewById(R.id.et_item_1);
+        et_fabricante=findViewById(R.id.et_item_2);
+        et_gramaje=findViewById(R.id.et_item_3);
+        et_lineAtencion=findViewById(R.id.et_item_4);
+        spn_producto=findViewById(R.id.spn_item_5);
+        spn_empaque=findViewById(R.id.spn_item_6);
+        spn_unidad=findViewById(R.id.spn_item_3_1);
 
         //SELECCION CATEGORIA 1
         spn_categoria1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -55,6 +68,7 @@ public class agregar extends AppCompatActivity {
                 et_nombre.setText("");
                 rl_fragment.setVisibility(View.GONE);
                 btn_guardar.setVisibility(View.GONE);
+                limpiar_interfaz();
 
                 spn_sub_categoria1.setVisibility(View.GONE);
                 spn_sub_categoria2.setVisibility(View.GONE);
@@ -94,6 +108,7 @@ public class agregar extends AppCompatActivity {
                 et_nombre.setText("");
                 rl_fragment.setVisibility(View.GONE);
                 btn_guardar.setVisibility(View.GONE);
+                limpiar_interfaz();
 
                 //Oculta todos los demas spinner de sub-categoria
                 spn_sub_categoria2.setVisibility(View.GONE);
@@ -191,7 +206,7 @@ public class agregar extends AppCompatActivity {
                 et_nombre.setText("");
                 rl_fragment.setVisibility(View.GONE);
                 btn_guardar.setVisibility(View.GONE);
-
+                limpiar_interfaz();
 
                 //Oculta todos los demas spinner de sub-categoria
                 spn_sub_categoria3.setVisibility(View.GONE);
@@ -401,7 +416,7 @@ public class agregar extends AppCompatActivity {
                 et_nombre.setText("");
                 rl_fragment.setVisibility(View.GONE);
                 btn_guardar.setVisibility(View.GONE);
-
+                limpiar_interfaz();
 
                 //Oculta todos los spinner
                 spn_sub_categoria4.setVisibility(View.GONE);
@@ -458,6 +473,7 @@ public class agregar extends AppCompatActivity {
                 et_nombre.setText("");
                 rl_fragment.setVisibility(View.GONE);
                 btn_guardar.setVisibility(View.GONE);
+                limpiar_interfaz();
 
                 //Establece la seleccion por defecto en todos los spinner
                 spn_sub_categoria4.setSelection(0);
@@ -503,6 +519,7 @@ public class agregar extends AppCompatActivity {
                 et_nombre.setText("");
                 rl_fragment.setVisibility(View.GONE);
                 btn_guardar.setVisibility(View.GONE);
+                limpiar_interfaz();
 
                 if(position!=0){//Garantiza que se escoja una opcion valida
                     selSubCat4=position;
@@ -537,6 +554,19 @@ public class agregar extends AppCompatActivity {
             }
         });
 
+    }
+
+    void limpiar_interfaz(){
+        et_propiedad_1.setText("");
+        et_propiedad_2.setText("");
+
+        et_ingredientes.setText("");
+        et_fabricante.setText("");
+        et_gramaje.setText("");
+        et_lineAtencion.setText("");
+        spn_producto.setSelection(0);
+        spn_empaque.setSelection(0);
+        spn_unidad.setSelection(0);
     }
 
     @Override

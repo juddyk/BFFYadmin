@@ -39,6 +39,7 @@ public class eliminar extends AppCompatActivity {
         btn_eliminar=findViewById(R.id.btnDEL_eliminar);
         rl_fragmet=findViewById(R.id.ll_eliminar);
 
+
         //SELECCION CATEGORIA 1
         spn_categoria1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -48,6 +49,7 @@ public class eliminar extends AppCompatActivity {
                 et_nombre.setText("");
                 rl_fragmet.setVisibility(View.GONE);
                 btn_eliminar.setVisibility(View.GONE);
+
                 //Establece la seleccion por defecto en todos los spinner
                 spn_categoria2.setSelection(0);
                 //Reinicia la seleccion a 0
@@ -74,6 +76,7 @@ public class eliminar extends AppCompatActivity {
                 et_nombre.setText("");
                 rl_fragmet.setVisibility(View.GONE);
                 btn_eliminar.setVisibility(View.GONE);
+
                 if(position!=0){//Garantiza que no se escoja la opcion valida
                     selCat2 = position;
                     et_nombre.setVisibility(View.VISIBLE);
@@ -109,6 +112,7 @@ public class eliminar extends AppCompatActivity {
         });
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
