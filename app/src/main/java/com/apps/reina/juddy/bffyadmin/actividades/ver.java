@@ -1,7 +1,5 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -10,14 +8,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.apps.reina.juddy.bffyadmin.R;
-import com.apps.reina.juddy.bffyadmin.fragments.ver_items;
 
 public class ver extends AppCompatActivity {
     Spinner spn_categoria1,spn_categoria2;
     EditText et_nombre;
+    LinearLayout rl_fragment;
 
     int selCat1=0,selCat2=0;
 
@@ -35,20 +34,26 @@ public class ver extends AppCompatActivity {
         spn_categoria1=findViewById(R.id.spnSEE_catgeoria_1);
         spn_categoria2=findViewById(R.id.spnSEE_catgeoria_2);
         et_nombre=findViewById(R.id.etSEE_nombre);
+        rl_fragment=findViewById(R.id.ll_ver);
 
         //SELECCION CATEGORIA 1
         spn_categoria1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                et_nombre.setVisibility(View.GONE);
+                et_nombre.setText("");
+                rl_fragment.setVisibility(View.GONE);
+
+
                 //Establece la seleccion por defecto en todos los spinner
                 spn_categoria2.setSelection(0);
+
+                spn_categoria2.setVisibility(View.GONE);
                 //Reinicia la seleccion a 0
                 selCat2=0;
-                if(position==0){//Si se escoge la opcion no valida
-                    //Oculta spinner categoria-2
-                    spn_categoria2.setVisibility(View.GONE);
-                }else{
+                if(position!=0){//Garantiza que se escoja una opcion valida
                     selCat1=position;
                     spn_categoria2.setVisibility(View.VISIBLE);
                 }
@@ -63,6 +68,10 @@ public class ver extends AppCompatActivity {
         spn_categoria2.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                et_nombre.setVisibility(View.GONE);
+                et_nombre.setText("");
+                rl_fragment.setVisibility(View.GONE);
+
                 if(position!=0){//Garantiza que no se escoja la opcion valida
                     selCat2 = position;
                     et_nombre.setVisibility(View.VISIBLE);
@@ -84,11 +93,8 @@ public class ver extends AppCompatActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                ver_items fragment = new ver_items();
-                ft.add(R.id.ver_fragment, fragment);
-                ft.commit();
+                rl_fragment.setVisibility(View.VISIBLE);
+
             }
         });
 

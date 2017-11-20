@@ -47,12 +47,26 @@
             android:visibility="gone"
             />
 
-        <RelativeLayout
-            android:id="@+id/eliminar_fragment"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/ll_eliminar"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:visibility="gone"
-            />
+            >
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/ver_tabla_general" >
+            </include>
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/ver_item" >
+            </include>
+
+
+        </LinearLayout>
 
         <Button
             android:layout_width="@dimen/btn_width_1"

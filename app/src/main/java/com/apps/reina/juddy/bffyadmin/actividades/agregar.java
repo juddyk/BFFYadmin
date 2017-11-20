@@ -1,7 +1,5 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -12,18 +10,17 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.RelativeLayout;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.apps.reina.juddy.bffyadmin.R;
-import com.apps.reina.juddy.bffyadmin.fragments.modificar_items;
 
 public class agregar extends AppCompatActivity {
 
     Spinner spn_categoria1,spn_categoria2,spn_sub_categoria1,spn_sub_categoria2,spn_sub_categoria3,spn_sub_categoria4;
     EditText et_nombre;
     Button btn_guardar;
-    RelativeLayout rl_fragment;
+    LinearLayout rl_fragment;
 
     int selCat1=0,selCat2=0,selSubCat1=0,selSubCat2=0,selSubCat3=0,selSubCat4=0;
 
@@ -47,7 +44,7 @@ public class agregar extends AppCompatActivity {
         spn_sub_categoria4=findViewById(R.id.spnADD_subcatgeoria_4);
         et_nombre=findViewById(R.id.etADD_nombre);
         btn_guardar=findViewById(R.id.btnADD_guardar);
-        rl_fragment=findViewById(R.id.agregar_fragment);
+        rl_fragment=findViewById(R.id.ll_agregar);
 
         //SELECCION CATEGORIA 1
         spn_categoria1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -529,11 +526,7 @@ public class agregar extends AppCompatActivity {
             public void afterTextChanged(Editable s) {
                 btn_guardar.setVisibility(View.VISIBLE);
                 rl_fragment.setVisibility(View.VISIBLE);
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                FragmentTransaction ft = fragmentManager.beginTransaction();
-                modificar_items fragment = new modificar_items();
-                ft.add(R.id.agregar_fragment, fragment);
-                ft.commit();
+
             }
         });
 

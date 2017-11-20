@@ -75,18 +75,26 @@
             android:visibility="gone"
             />
 
-
-        <RelativeLayout
-            android:id="@+id/agregar_fragment"
+        <LinearLayout
+            android:id="@+id/ll_agregar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="@dimen/linear_margen4"
-            android:layout_marginStart="@dimen/linear_margen4"
-            android:layout_marginBottom="@dimen/linear_margen3"
-            android:layout_marginTop="@dimen/linear_margen4"
+            android:orientation="vertical"
             android:visibility="gone"
             >
-        </RelativeLayout>
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/modificar_tabla_general" >
+            </include>
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                layout="@layout/modificar_item" >
+            </include>
+
+
+        </LinearLayout>
 
         <Button
             android:layout_width="@dimen/btn_width_1"
