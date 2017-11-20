@@ -57,6 +57,7 @@ public class agregar extends AppCompatActivity {
                 et_nombre.setVisibility(View.GONE);
                 et_nombre.setText("");
                 rl_fragment.setVisibility(View.GONE);
+                btn_guardar.setVisibility(View.GONE);
 
                 spn_sub_categoria1.setVisibility(View.GONE);
                 spn_sub_categoria2.setVisibility(View.GONE);
