@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apps.reina.juddy.bffyadmin.logueo.logueo"
+    android:orientation="vertical"
+    android:background="@color/azul_oscuro"
+
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/linear_margen"
+        android:layout_marginStart="@dimen/linear_margen"
+        android:layout_marginEnd="@dimen/linear_margen"
+        android:layout_marginBottom="@dimen/linear_margen"
+        android:background="@drawable/backgroun_rect2"
+        >
+
+        <ImageView
+            android:contentDescription="@string/splash_name"
+            android:layout_width="@dimen/logo_img2"
+            android:layout_height="@dimen/logo_img2"
+            android:src="@drawable/carita_oscura"
+            android:layout_gravity="center"
+            android:layout_marginBottom="25dp"
+            android:layout_marginTop="25dp"
+            />
+
+        <!-- USUARIO -->
+        <LinearLayout
+            style="@style/linear_values_1"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/backgroun_rect"
+                style="@style/input_textBox"
+                android:hint="@string/user_email"
+                android:textColorHint="@color/verde_oscuro"
+                android:inputType="textEmailAddress"
+                />
+
+        </LinearLayout>
+
+        <!-- CONTRASENNA -->
+        <LinearLayout
+            style="@style/linear_values_1"
+            >
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/backgroun_rect"
+                style="@style/input_textBox"
+                android:hint="@string/user_contrs"
+                android:textColorHint="@color/verde_oscuro"
+                android:inputType="textPassword"
+                />
+        </LinearLayout>
+
+        <Button
+            android:layout_width="@dimen/btn_width_1"
+            android:layout_height="@dimen/btn_heigh_1"
+            style="@style/btn_textBox"
+            android:text="@string/log_in"
+            android:background="@drawable/backgroun_rect2"
+            android:layout_marginTop="5dp"
+            android:id="@+id/btn_iniciar"
+            />
+
+        <Button
+            android:layout_width="@dimen/btn_width_2"
+            android:layout_height="@dimen/btn_heigh_1"
+            style="@style/btn_textBox"
+            android:text="@string/sign_in"
+            android:background="@drawable/backgroun_rect2"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="10dp"
+            android:id="@+id/btn_registro"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

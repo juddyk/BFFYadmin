@@ -1,0 +1,106 @@
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.apps.reina.juddy.bffyadmin.actividades.agregar"
+    android:background="@color/verde_azul"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        >
+
+        <ImageView
+            android:layout_width="@dimen/image"
+            android:layout_height="@dimen/image"
+            android:layout_gravity="center"
+            android:src="@drawable/guardar_oscuro"
+            android:layout_marginTop="@dimen/linear_margen"
+            android:layout_marginBottom="@dimen/linear_margen"
+            />
+
+
+        <Spinner
+            android:id="@+id/spnADD_catgeoria_1"
+            style="@style/spn_values1"
+            android:entries="@array/categoria1"
+            >
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spnADD_catgeoria_2"
+            style="@style/spn_values1"
+            android:entries="@array/categoria2"
+            android:visibility="gone"
+            >
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spnADD_subcatgeoria_1"
+            style="@style/spn_values1"
+            android:visibility="gone"
+            >
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spnADD_subcatgeoria_2"
+            style="@style/spn_values1"
+            android:visibility="gone"
+            >
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spnADD_subcatgeoria_3"
+            style="@style/spn_values1"
+            android:visibility="gone">
+        </Spinner>
+
+        <Spinner
+            android:id="@+id/spnADD_subcatgeoria_4"
+            style="@style/spn_values1"
+            android:visibility="gone"
+            >
+        </Spinner>
+
+        <EditText
+            android:id="@+id/etADD_nombre"
+            style="@style/spn_values1"
+            android:hint="@string/name_pro"
+            android:textColorHint="@color/verde_oscuro"
+            android:textColor="@color/azul_oscuro"
+            android:visibility="gone"
+            />
+
+
+        <RelativeLayout
+            android:id="@+id/agregar_fragment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/linear_margen4"
+            android:layout_marginStart="@dimen/linear_margen4"
+            android:layout_marginBottom="@dimen/linear_margen3"
+            android:layout_marginTop="@dimen/linear_margen4"
+            android:visibility="gone"
+            >
+        </RelativeLayout>
+
+        <Button
+            android:layout_width="@dimen/btn_width_1"
+            android:layout_height="@dimen/btn_heigh_1"
+            style="@style/btn_textBox"
+            android:text="@string/save_usr"
+            android:background="@drawable/backgroun_rect2"
+            android:layout_marginTop="5dp"
+            android:id="@+id/btnADD_guardar"
+            android:visibility="gone"
+            android:layout_marginBottom="@dimen/linear_margen4"
+            />
+
+    </LinearLayout>
+
+
+</ScrollView>

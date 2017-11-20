@@ -1,18 +1,80 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.apps.reina.juddy.bffyadmin.MainActivity">
+    tools:context="com.apps.reina.juddy.bffyadmin.MainActivity"
+    android:orientation="vertical"
+    android:background="@color/azul_oscuro"
+    android:layout_gravity="center"
+    android:gravity="center"
+    >
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        android:orientation="vertical"
+        android:layout_marginTop="@dimen/linear_margen2"
+        android:layout_marginStart="@dimen/linear_margen2"
+        android:layout_marginEnd="@dimen/linear_margen2"
+        android:layout_marginBottom="@dimen/linear_margen2"
+        android:background="@drawable/backgroun_rect2"
+        >
 
-</android.support.constraint.ConstraintLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="30dp"
+            android:text="@string/main_msg"
+            style="@style/btn_textBox"
+            />
+
+        <Button
+            android:layout_width="@dimen/btn_width_1"
+            android:layout_height="@dimen/btn_heigh_1"
+            style="@style/btn_textBox"
+            android:text="@string/look"
+            android:background="@drawable/backgroun_rect2"
+            android:id="@+id/btn_ver"
+            android:layout_marginBottom="20dp"
+            />
+
+        <Button
+            android:layout_width="@dimen/btn_width_1"
+            android:layout_height="@dimen/btn_heigh_1"
+            style="@style/btn_textBox"
+            android:text="@string/add"
+            android:background="@drawable/backgroun_rect2"
+            android:id="@+id/btn_agregar"
+            android:layout_marginBottom="20dp"
+            />
+
+        <Button
+            android:layout_width="@dimen/btn_width_2"
+            android:layout_height="@dimen/btn_heigh_1"
+            style="@style/btn_textBox"
+            android:id="@+id/btn_editar"
+            android:text="@string/edit"
+            android:background="@drawable/backgroun_rect2"
+            android:layout_marginBottom="20dp"
+            />
+
+        <Button
+            android:layout_width="@dimen/btn_width_2"
+            android:layout_height="@dimen/btn_heigh_1"
+            style="@style/btn_textBox"
+            android:id="@+id/btn_eliminar"
+            android:text="@string/delete"
+            android:background="@drawable/backgroun_rect2"
+            android:layout_marginBottom="20dp"
+            />
+
+
+    </LinearLayout>
+
+
+
+
+</LinearLayout>

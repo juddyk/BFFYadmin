@@ -1,3 +1,204 @@
 <resources>
-    <string name="app_name">BFFYadmin</string>
+    <string name="app_name">Admin</string>
+    <string name="value">none</string>
+
+    <string name="splash_name">Best Food For You</string>
+
+    <string name="user_email">correo</string>
+    <string name="user_contrs">contraseña</string>
+    <string name="user_contrs2">repetir contraseña</string>
+    <string name="log_in">INICIAR</string>
+    <string name="sign_in">REGISTRARME</string>
+    <string name="save_usr">GUARDAR</string>
+
+
+    <string name="main_msg">¿Que deseas hacer?</string>
+
+    <string name="add">AGREGAR</string>
+    <string name="edit">MODIFICAR</string>
+    <string name="delete">ELIMINAR</string>
+    <string name="look">BUSCAR</string>
+
+
+    <string name="table">TABLA NUTRICIONAL</string>
+    <string name="table_propiedad_1">PROPIEDAD: </string>
+
+    <string name="item">INFORMACION EXTRA</string>
+    <string name="item_1">INGREDIENTES: </string>
+    <string name="item_2">FABRICANTE: </string>
+    <string name="item_3">GRAMAJE: </string>
+    <string name="item_4">LINEA DE ATENCION: </string>
+    <string name="item_5">PRODUCTO: </string>
+    <string name="item_6">EMPAQUE: </string>
+
+    <string name="name_pro">nombre del producto </string>
+
+
+    <!--                                        LISTAS                           -->
+
+    <string-array name="categoria1">
+        <item>ESCOGER</item>
+        <item>liquidos</item>
+        <item>secos</item>
+        <item>mixtos</item>
+    </string-array>
+
+    <string-array name="categoria2">
+        <item>ESCOGER</item>
+        <item>alimento</item>
+        <item>complemento</item>
+        <item>suplemento</item>
+    </string-array>
+
+    <string-array name="suplemento">
+        <item>ESCOGER</item>
+        <item>nutriente</item>
+        <item>multi-nutriente</item>
+    </string-array>
+
+
+    <string-array name="alimento_liquidos">
+        <item>ESCOGER</item>
+        <item>gaseosa</item>
+        <item>jugo</item>
+        <item>lacteo</item>
+        <item>refresco</item>
+        <item>otro</item>
+    </string-array>
+
+
+    <string-array name="alimento_secos">
+        <item>ESCOGER</item>
+        <item>condimento/especie</item>
+        <item>endulzante</item>
+        <item>fruto seco</item>
+        <item>grano</item>
+        <item>panaderia</item>
+        <item>reposteria</item>
+        <item>sal</item>
+        <item>semilla</item>
+        <item>snack</item>
+    </string-array>
+
+    <string-array name="alimento_mixtos">
+        <item>ESCOGER</item>
+        <item>carne</item>
+        <item>embutido</item>
+        <item>fruto</item>
+        <item>queso</item>
+        <item>salsa</item>
+        <item>vegetable</item>
+        <item>otro</item>
+    </string-array>
+
+    <string-array name="liquidos_sub1">
+        <item>ESCOGER</item>
+        <item>liquido</item>
+        <item>polvo</item>
+    </string-array>
+
+    <string-array name="jugos">
+        <item>ESCOGER</item>
+        <item>listo</item>
+        <item>polvo</item>
+        <item>pulpa</item>
+    </string-array>
+
+
+    <string-array name="condimento">
+        <item>ESCOGER</item>
+        <item>artificial</item>
+        <item>natural</item>
+    </string-array>
+
+    <string-array name="endulzante">
+        <item>ESCOGER</item>
+        <item>calorico</item>
+        <item>no calorico</item>
+    </string-array>
+
+    <string-array name="granos">
+        <item>ESCOGER</item>
+        <item>entero</item>
+        <item>parvolizado</item>
+        <item>refinado</item>
+    </string-array>
+
+    <string-array name="snack">
+        <item>ESCOGER</item>
+        <item>frito</item>
+        <item>horneado</item>
+    </string-array>
+
+    <string-array name="carnes">
+        <item>ESCOGER</item>
+        <item>conserva</item>
+        <item>fresca</item>
+        <item>madurada</item>
+    </string-array>
+
+
+    <string-array name="embutidos">
+        <item>ESCOGER</item>
+        <item>conserva</item>
+        <item>madurado</item>
+        <item>otro</item>
+    </string-array>
+
+    <string-array name="secos_sub1">
+        <item>ESCOGER</item>
+        <item>conserva</item>
+        <item>fresco</item>
+    </string-array>
+
+    <string-array name="quesos">
+        <item>ESCOGER</item>
+        <item>fresco</item>
+        <item>madurado</item>
+    </string-array>
+
+    <string-array name="secos_sub2">
+        <item>ESCOGER</item>
+        <item>conserva</item>
+        <item>fresco</item>
+        <item>listo</item>
+    </string-array>
+
+    <string-array name="lacteos">
+        <item>ESCOGER</item>
+        <item>entera</item>
+        <item>descremada</item>
+        <item>semidescremeda</item>
+    </string-array>
+
+    <string-array name="lacteos_sub1">
+        <item>ESCOGER</item>
+        <item>con lactosa</item>
+        <item>sin lactosa</item>
+    </string-array>
+
+    <string-array name="gramaje">
+        <item>ESCOGER</item>
+        <item>mGr</item>
+        <item>Gr</item>
+        <item>Kg</item>
+        <item>mLt</item>
+        <item>Lt</item>
+        <item>Oz</item>
+    </string-array>
+
+
+    <string-array name="producto">
+        <item>ESCOGER</item>
+        <item>Importado</item>
+        <item>Nacional</item>
+    </string-array>
+
+
+    <string-array name="empaque">
+        <item>ESCOGER</item>
+        <item>Reciclable</item>
+        <item>No Reciclable</item>
+    </string-array>
+
 </resources>

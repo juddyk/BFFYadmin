@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:id="@+id/llM_propiedad_1"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/table_propiedad_1"
+            />
+        <EditText
+            android:id="@+id/et_propiedad_1"
+            style="@style/table_textBox2"
+            android:hint="@string/value"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llM_propiedad_2"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/table_propiedad_1"
+            />
+        <EditText
+            android:id="@+id/et_propiedad_2"
+            style="@style/table_textBox2"
+            android:hint="@string/value"
+            />
+    </LinearLayout>
+
+
+</LinearLayout>
