@@ -6,30 +6,44 @@ package com.apps.reina.juddy.bffyadmin.data;
 
 public class tabla_general {
 
+    private long calorias;
+    private double azucar;
+    private double sodio;
+
+
+    public tabla_general(long calorias, double azucar, double sodio) {
+        this.calorias = calorias;
+        this.azucar = azucar;
+        this.sodio = sodio;
+    }
+
     public tabla_general() {
-        propiedad1="none";
-        propiedad2="none";
+        this.calorias = -1;
+        this.azucar = -1;
+        this.sodio = -1;
     }
 
-    public String getPropiedad1() {
-        return propiedad1;
+    public long getCalorias() {
+        return calorias;
     }
 
-    public void setPropiedad1(String propiedad1) {
-        this.propiedad1 = propiedad1;
+    public void setCalorias(long calorias) {
+        this.calorias = calorias;
     }
 
-    public String getPropiedad2() {
-        return propiedad2;
+    public double getAzucar() {
+        return azucar;
     }
 
-    public void setPropiedad2(String propiedad2) {
-        this.propiedad2 = propiedad2;
+    public void setAzucar(double azucar) {
+        this.azucar = azucar;
     }
 
-    private String propiedad1;
-    private String propiedad2;
+    public double getSodio() {
+        return sodio;
+    }
 
-
-
+    public void setSodio(double sodio) {
+        this.sodio = sodio;
+    }
 }

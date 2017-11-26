@@ -27,7 +27,7 @@
         >
         <TextView
             style="@style/table_textBox1"
-            android:text="@string/table_propiedad_1"
+            android:text="@string/table_propiedad_2"
             />
         <TextView
             android:id="@+id/tv_propiedad_2"
@@ -36,6 +36,20 @@
             />
     </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/ll_propiedad_3"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/table_propiedad_3"
+            />
+        <TextView
+            android:id="@+id/tv_propiedad_3"
+            style="@style/table_textBox2"
+            android:text="@string/value"
+            />
+    </LinearLayout>
 
 
 </LinearLayout>

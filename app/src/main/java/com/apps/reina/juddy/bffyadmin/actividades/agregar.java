@@ -26,7 +26,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
 
     Spinner spn_categoria1,spn_categoria2,spn_sub_categoria1,spn_sub_categoria2,spn_sub_categoria3,spn_sub_categoria4;
     Spinner spn_producto,spn_empaque,spn_unidad,spn_conservantes,spn_sabor,spn_apto_para;
-    EditText et_nombre,et_propiedad_1,et_propiedad_2,et_fabricante,et_gramaje,et_lineAtencion;
+    EditText et_nombre,et_nombre_producto,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
     TextView tv_ingredientes;
     Button btn_guardar;
     LinearLayout rl_fragment;
@@ -57,9 +57,11 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
         btn_guardar=findViewById(R.id.btnADD_guardar);
         rl_fragment=findViewById(R.id.ll_agregar);
 
-        et_propiedad_1=findViewById(R.id.et_propiedad_1);
-        et_propiedad_2=findViewById(R.id.et_propiedad_2);
+        et_calorias=findViewById(R.id.et_calorias);
+        et_azucar=findViewById(R.id.et_azucar);
+        et_sodio=findViewById(R.id.et_sodio);
 
+        et_nombre_producto=findViewById(R.id.et_item_0);
         tv_ingredientes=findViewById(R.id.tv_item_1);
         et_fabricante=findViewById(R.id.et_item_2);
         et_gramaje=findViewById(R.id.et_item_3);
@@ -101,7 +103,6 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                 selSubCat3=0;
                 selSubCat4=0;
                 if(position==0){//Si se escoge la opcion no valida
-
                     spn_categoria2.setVisibility(View.GONE);
                 }else{
                     selCat1=position;
@@ -592,9 +593,11 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
     }
 
     void limpiar_interfaz(){
-        et_propiedad_1.setText("");
-        et_propiedad_2.setText("");
+        et_calorias.setText("");
+        et_azucar.setText("");
+        et_sodio.setText("");
 
+        et_nombre_producto.setText("");
         tv_ingredientes.setText("");
         et_fabricante.setText("");
         et_gramaje.setText("");

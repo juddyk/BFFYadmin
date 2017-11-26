@@ -15,9 +15,10 @@
             android:text="@string/table_propiedad_1"
             />
         <EditText
-            android:id="@+id/et_propiedad_1"
+            android:id="@+id/et_calorias"
             style="@style/table_textBox2"
             android:hint="@string/value"
+            android:inputType="number"
             />
     </LinearLayout>
 
@@ -27,12 +28,29 @@
         >
         <TextView
             style="@style/table_textBox1"
-            android:text="@string/table_propiedad_1"
+            android:text="@string/table_propiedad_2"
             />
         <EditText
-            android:id="@+id/et_propiedad_2"
+            android:id="@+id/et_azucar"
             style="@style/table_textBox2"
             android:hint="@string/value"
+            android:inputType="numberDecimal"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llM_propiedad_3"
+        style="@style/linear_values_3"
+        >
+        <TextView
+            style="@style/table_textBox1"
+            android:text="@string/table_propiedad_3"
+            />
+        <EditText
+            android:id="@+id/et_sodio"
+            style="@style/table_textBox2"
+            android:hint="@string/value"
+            android:inputType="numberDecimal"
             />
     </LinearLayout>
 

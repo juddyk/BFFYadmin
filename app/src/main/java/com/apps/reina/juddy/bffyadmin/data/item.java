@@ -1,5 +1,8 @@
 package com.apps.reina.juddy.bffyadmin.data;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by juddy on 20/11/17.
  */
@@ -7,9 +10,8 @@ package com.apps.reina.juddy.bffyadmin.data;
 public class item {
     private long id;
     private tabla_general informacion;
-    /*
-        ingredientes
-     */
+    private String nombre;
+    private List<ingrediente> ingredientes;
     private String fabricante;
     private long gramaje;
     private long unidad_gramaje;
@@ -22,6 +24,8 @@ public class item {
 
     public item() {
         this.informacion = new tabla_general();
+        this.nombre="none";
+        this.ingredientes=new ArrayList<>();
         this.fabricante = "none";
         this.gramaje = 0;
         this.unidad_gramaje = 1;
@@ -48,6 +52,22 @@ public class item {
 
     public void setInformacion(tabla_general informacion) {
         this.informacion = informacion;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public List<ingrediente> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<ingrediente> ingredientes) {
+        this.ingredientes = ingredientes;
     }
 
     public String getFabricante() {

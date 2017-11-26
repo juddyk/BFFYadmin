@@ -1,16 +1,11 @@
 package com.apps.reina.juddy.bffyadmin;
 
-import android.animation.AnimatorInflater;
-import android.animation.AnimatorSet;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
-import android.widget.TextSwitcher;
 import android.widget.TextView;
 
 import com.apps.reina.juddy.bffyadmin.logueo.logueo;
@@ -21,10 +16,10 @@ import java.util.TimerTask;
 public class splash extends AppCompatActivity {
 
     private static final long SPLASH_DELAY=2500;//Tiempo que dura el Splash en ms
-    private static final long text_DELAY=500;//Tiempo que dura el Splash en ms
+    private static final long text_DELAY=400;//Tiempo que dura el Splash en ms
     TextView txtNombre;
     int cnt=0;
-    final String[] textToShow = { "BEST", "BEST FOOD","BEST FOOD FOR", "BEST FOOD FOR YOU"};
+    final String[] textToShow = { "LA", "LA MEJOR","LA MEJOR COMIDAD", "LA MEJOR COMIDAD PARA", "LA MEJOR COMIDAD PARA TI"};
     Timer tmr;
     TimerTask task;
     //we are going to use a handler to be able to run in our TimerTask
@@ -52,7 +47,7 @@ public class splash extends AppCompatActivity {
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
-                        if(cnt==4){
+                        if(cnt==5){
                             tmr.cancel();
                             tmr = null;
 

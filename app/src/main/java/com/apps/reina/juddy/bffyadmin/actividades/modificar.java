@@ -25,7 +25,7 @@ import java.util.List;
 public class modificar extends AppCompatActivity implements addIngrediente.ingredienteListener{
     Spinner spn_categoria1,spn_categoria2, spn_producto,spn_empaque,spn_unidad;
     Spinner spn_conservantes,spn_sabor,spn_apto_para;
-    EditText et_nombre,et_propiedad_1,et_propiedad_2,et_fabricante,et_gramaje,et_lineAtencion;
+    EditText et_nombre,et_nombre_producto,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
     TextView tv_ingredientes;
     Button btn_guardar;
     LinearLayout rl_fragment;
@@ -52,9 +52,11 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         btn_guardar=findViewById(R.id.btnEDT_guardar);
         rl_fragment=findViewById(R.id.ll_modificar);
 
-        et_propiedad_1=findViewById(R.id.et_propiedad_1);
-        et_propiedad_2=findViewById(R.id.et_propiedad_2);
+        et_calorias=findViewById(R.id.et_calorias);
+        et_azucar=findViewById(R.id.et_azucar);
+        et_sodio=findViewById(R.id.et_sodio);
 
+        et_nombre_producto=findViewById(R.id.et_item_0);
         tv_ingredientes=findViewById(R.id.tv_item_1);
         et_fabricante=findViewById(R.id.et_item_2);
         et_gramaje=findViewById(R.id.et_item_3);
@@ -162,19 +164,6 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         et_nombre.setText("");
         rl_fragment.setVisibility(View.GONE);
         btn_guardar.setVisibility(View.GONE);
-
-        /*
-        et_propiedad_1.setText("");
-        et_propiedad_2.setText("");
-
-        tv_ingredientes.setText("");
-        et_fabricante.setText("");
-        et_gramaje.setText("");
-        et_lineAtencion.setText("");
-        spn_producto.setSelection(0);
-        spn_empaque.setSelection(0);
-        spn_unidad.setSelection(0);*/
-
     }
 
     @Override

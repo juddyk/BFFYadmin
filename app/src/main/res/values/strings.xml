@@ -2,7 +2,8 @@
     <string name="app_name">Admin</string>
     <string name="value">none</string>
 
-    <string name="splash_name">Best Food For You</string>
+    <!-- Best Food For You -->
+    <string name="splash_name">La mejor comida para ti</string>
 
     <string name="user_email">correo</string>
     <string name="user_contrs">contraseña</string>
@@ -26,9 +27,12 @@
     <string name="toast_ingredientes_empty">No agrego ningun ingrediente</string>
 
     <string name="table">TABLA NUTRICIONAL</string>
-    <string name="table_propiedad_1">PROPIEDAD: </string>
+    <string name="table_propiedad_1">CALORIAS: </string>
+    <string name="table_propiedad_2">AZUCAR: </string>
+    <string name="table_propiedad_3">SODIO: </string>
 
     <string name="item">INFORMACION EXTRA</string>
+    <string name="item_0">NOMBRE: </string>
     <string name="item_1">INGREDIENTES: </string>
     <string name="item_2">FABRICANTE: </string>
     <string name="item_3">GRAMAJE: </string>

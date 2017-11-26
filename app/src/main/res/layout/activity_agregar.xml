@@ -85,12 +85,13 @@
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/modificar_tabla_general" >
+                layout="@layout/modificar_item" >
             </include>
+
             <include
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                layout="@layout/modificar_item" >
+                layout="@layout/modificar_tabla_general" >
             </include>
 
 
