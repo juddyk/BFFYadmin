@@ -83,6 +83,16 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="input_textBox2">
+        <item name="android:textColor">@color/azul_oscuro</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/backgroun_rect2</item>
+
+    </style>
+
     <!--                                                BTN               -->
 
     <style name="btn_textBox">

@@ -10,25 +10,23 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.reina.juddy.bffyadmin.R;
 import com.apps.reina.juddy.bffyadmin.data.ingrediente;
-import com.apps.reina.juddy.bffyadmin.data.ingredienteAdapter;
+import com.apps.reina.juddy.bffyadmin.dataAdapter.ingredienteAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by juddy on 20/11/17.
+ * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
+ * APLICACION ADMINISTRADOR DE BEST FOOD FOR YOY (BFFY)
+ *
  */
-
 public class addIngrediente extends DialogFragment {
 
     List<ingrediente> lst_ingredientes;
@@ -67,7 +65,7 @@ public class addIngrediente extends DialogFragment {
         et_ingrediente=view.findViewById(R.id.et_ingrediente);
 
         lst_ingredientes=new ArrayList<>();
-        ArrayList<String> nombres_ingredientes=new ArrayList<>();
+        ArrayList<String> nombres_ingredientes;
 
         Bundle bndl= getArguments();
         nombres_ingredientes=bndl.getStringArrayList("lista");

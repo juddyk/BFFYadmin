@@ -2,8 +2,10 @@ package com.apps.reina.juddy.bffyadmin;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
@@ -13,38 +15,47 @@ import com.apps.reina.juddy.bffyadmin.actividades.agregar;
 import com.apps.reina.juddy.bffyadmin.actividades.eliminar;
 import com.apps.reina.juddy.bffyadmin.actividades.modificar;
 import com.apps.reina.juddy.bffyadmin.actividades.ver;
+import com.apps.reina.juddy.bffyadmin.data.usuario;
+import com.apps.reina.juddy.bffyadmin.dialog.perfilUsuario;
 import com.firebase.ui.auth.AuthUI;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.ChildEventListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.StorageReference;
+import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
+ * APLICACION ADMINISTRADOR DE BEST FOOD FOR YOY (BFFY)
+ *
+ */
+
+public class MainActivity extends AppCompatActivity implements perfilUsuario.perfilUsuarioListener {
 
     //DATABASE
     private FirebaseDatabase mDataBase;
     private DatabaseReference mDataBase_Reference;
-    private ChildEventListener mDataBase_ChildListener;
+    private  ValueEventListener mDataBase_listener;
     //AUTH
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuth_StateListener;
-    //STORAGE
-    private FirebaseStorage mStorage;
-    private StorageReference mStorage_Reference;
+    private FirebaseUser mAuth_user;
 
-    private static final String CHILD_PRODUCTOS="PRODUCTOS";
-    private static final String CHILD_USUARIOS="ADMINISTRADORES";
+    private static final String TAG_USUARIOS="ADMINISTRADORES";
     public static final int RC_AUTH = 1;
-    private String mUsername;
+    private usuario mUser;
+    private String idUser;
 
-    //OBEJTOS INTERFAZ
-    Button btnAgregar, btnModificar, btnEliminar, btnVer, btnSalir;
+    //OBJETOS INTERFAZ
+    Button btnAgregar, btnModificar, btnEliminar, btnVer, btnSalir, btnPerfil;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         //Establece la vista
         setContentView(R.layout.activity_main);
 
-        instanciaFIREBASE();
-        instanciaOBJETOS_interfaz();
+        instanciarFIREBASE();
+        instanciarOBJETOS_interfaz();
+        instanciarOBJETOS();
 
 
         btnVer.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +98,21 @@ public class MainActivity extends AppCompatActivity {
              }
         });
 
+        btnPerfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialog = new perfilUsuario();
+
+                Bundle bundle = new Bundle();
+                bundle.putString("nombre",mUser.getNombre());
+                bundle.putString("correo",mUser.getCorreo());
+                bundle.putString("celular",mUser.getCeluar());
+                dialog.setArguments(bundle);
+
+                dialog.show(getSupportFragmentManager(), getResources().getString(R.string.perfil_data));
+            }
+        });
+
         btnSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -100,10 +127,11 @@ public class MainActivity extends AppCompatActivity {
         mAuth_StateListener=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user=firebaseAuth.getCurrentUser();
-                if(user != null){
+                mAuth_user=firebaseAuth.getCurrentUser();
+                if(mAuth_user != null){
+                    validarExistenciaUsuario();
                     //Usuario logueado
-                    onSignedInInitialize(user.getDisplayName());
+                    onSignedInInitialize(mAuth_user.getDisplayName(), mAuth_user.getEmail());
                 }else{
                     //Usuario no logueado
                     onSignedOutCleanup();
@@ -125,78 +153,100 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         };
+        
+    }
 
+    //Método para validar existencia del usuario registrado
+    private  void validarExistenciaUsuario(){
+        mDataBase_listener=new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean flag=false;
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    usuario post = postSnapshot.getValue(usuario.class);
+                    if(post!=null){
+                        if(post.getCorreo().contentEquals(mAuth_user.getEmail())){
+                            flag=true;
+                            mUser=post;
+                            idUser=postSnapshot.getKey();
+                            break;
+                        }
+                    }
+                }
 
+                if(!flag){
+                    //REGISTRA EL USUARIO
+                    mUser=new usuario(0,mAuth_user.getDisplayName(),mAuth_user.getEmail(),"");
+                    DatabaseReference mref=mDataBase.getReference().child(TAG_USUARIOS).push();
+                    mref.setValue(mUser);
+                    idUser=mref.getKey();
+
+                }
+
+            }
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                String TAG="DB_VALIDAR";
+                Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                Toast.makeText(MainActivity.this, "Failed to load data.",Toast.LENGTH_SHORT).show();
+            }
+        };
+        mDataBase_Reference.addListenerForSingleValueEvent(mDataBase_listener);
+    }
+
+    //Metodo para actualizar el usuario registrado
+    private  void actualizarUsuario(){
+        Map<String, Object> updates = new HashMap<>();
+        updates.put("/"+idUser, mUser);
+        mDataBase_Reference.updateChildren(updates);
 
     }
 
-    void instanciaFIREBASE(){
+
+    void instanciarFIREBASE(){
         //DataBase
         mDataBase=FirebaseDatabase.getInstance();
-        mDataBase_Reference=mDataBase.getReference().child(CHILD_PRODUCTOS);
+        mDataBase_Reference=mDataBase.getReference().child(TAG_USUARIOS);
         //Auth
         mAuth=FirebaseAuth.getInstance();
-        //Storage
-        mStorage=FirebaseStorage.getInstance();
-        mStorage_Reference=mStorage.getReference().child(CHILD_PRODUCTOS);
     }
 
-    void instanciaOBJETOS_interfaz(){
+    void instanciarOBJETOS_interfaz(){
         btnVer=findViewById(R.id.btn_ver);
         btnAgregar=findViewById(R.id.btn_agregar);
         btnModificar=findViewById(R.id.btn_editar);
         btnEliminar=findViewById(R.id.btn_eliminar);
         btnSalir=findViewById(R.id.btn_salir);
+        btnPerfil=findViewById(R.id.btn_perfil);
+    }
+
+    void instanciarOBJETOS(){
+        mUser=new usuario();
     }
 
     private void onSignedOutCleanup() {
-        mUsername="none";
+        mUser.setNombre("none");
         detachDataBaseReadListener();
     }
 
-    private void onSignedInInitialize(String username) {
-        mUsername=username;
+    private void onSignedInInitialize(String username,String correo) {
+        mUser.setNombre(username);
+        mUser.setCorreo(correo);
+        mUser.setCeluar("none");
         attachDataBaseReadListener();
 
     }
     private void attachDataBaseReadListener(){
-        /*
-        if(mDataBase_ChildListener == null){
-            mDataBase_ChildListener= new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    //Actulizar informacion de base de datos.
-                }
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
 
-                }
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-                }
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-                }
-                @Override
-                public void onCancelled(DatabaseError databaseError) {
-
-                }
-            };
-            mDataBase_Reference.addChildEventListener(mDataBase_ChildListener);
-
-        }
-        */
     }
 
     private void detachDataBaseReadListener(){
-        /*
-        if(mDataBase_ChildListener != null){
-            mDataBase_Reference.removeEventListener(mDataBase_ChildListener);
-            mDataBase_ChildListener=null;
+        if(mDataBase_listener != null){
+            mDataBase_Reference.removeEventListener(mDataBase_listener);
+            mDataBase_listener=null;
         }
-        */
+
+
     }
 
     @Override
@@ -243,5 +293,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         mAuth.addAuthStateListener(mAuth_StateListener);
+    }
+
+    @Override
+    public void on_perfil_Positive(DialogFragment dialog, usuario user) {
+        mUser=user;
+        actualizarUsuario();
+        dialog.dismiss();
+    }
+
+    @Override
+    public void on_perfil_Negative(DialogFragment dialog) {
+        dialog.dismiss();
     }
 }

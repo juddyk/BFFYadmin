@@ -1,5 +1,11 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
+/**
+ * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
+ * APLICACION ADMINISTRADOR DE BEST FOOD FOR YOY (BFFY)
+ *
+ */
+
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;

@@ -1,6 +1,6 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
-
+import android.content.Intent;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.apps.reina.juddy.bffyadmin.R;
 import com.apps.reina.juddy.bffyadmin.data.ingrediente;
@@ -22,16 +23,24 @@ import com.apps.reina.juddy.bffyadmin.dialog.addIngrediente;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
+ * APLICACION ADMINISTRADOR DE BEST FOOD FOR YOY (BFFY)
+ *
+ */
+
 public class modificar extends AppCompatActivity implements addIngrediente.ingredienteListener{
     Spinner spn_categoria1,spn_categoria2, spn_producto,spn_empaque,spn_unidad;
     Spinner spn_conservantes,spn_sabor,spn_apto_para;
     EditText et_nombre,et_nombre_producto,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
     TextView tv_ingredientes;
-    Button btn_guardar;
+    Button btn_guardar,btn_UploadImg;
     LinearLayout rl_fragment;
 
     List<ingrediente> lista_ingredientes;
     int selCat1=0,selCat2=0;
+
+    public static final int RC_PHOTO = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +59,7 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
 
         et_nombre=findViewById(R.id.etEDT_nombre);
         btn_guardar=findViewById(R.id.btnEDT_guardar);
+        btn_UploadImg=findViewById(R.id.btn_upload_img);
         rl_fragment=findViewById(R.id.ll_modificar);
 
         et_calorias=findViewById(R.id.et_calorias);
@@ -135,6 +145,17 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
             }
         });
 
+        btn_UploadImg.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+
+                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_selec)), RC_PHOTO);
+            }
+        });
+
         tv_ingredientes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -200,6 +221,20 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     @Override
     public void on_addIngrediente_Negative(DialogFragment dialog) {
         dialog.dismiss();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == RC_PHOTO){
+            if(resultCode == RESULT_OK){
+                Toast.makeText(modificar.this, getResources().getString(R.string.photo_ok),Toast.LENGTH_SHORT).show();
+            }else if(resultCode == RESULT_CANCELED){
+                Toast.makeText(modificar.this, getResources().getString(R.string.photo_no_ok),Toast.LENGTH_SHORT).show();
+                finish();
+            }
+        }
     }
 
 }

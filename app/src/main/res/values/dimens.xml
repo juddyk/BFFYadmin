@@ -13,6 +13,7 @@
     <dimen name="btn_width_2">160dp</dimen>
 
     <dimen name="txt_15sz">15dp</dimen>
+    <dimen name="height_25sz">25dp</dimen>
 
     <dimen name="linear_margen">15dp</dimen>
     <dimen name="linear_margen2">25dp</dimen>

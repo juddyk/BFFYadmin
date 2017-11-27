@@ -1,4 +1,4 @@
-package com.apps.reina.juddy.bffyadmin.data;
+package com.apps.reina.juddy.bffyadmin.dataAdapter;
 
 import android.content.Context;
 import android.view.View;
@@ -6,11 +6,15 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ListAdapter;
 
+import com.apps.reina.juddy.bffyadmin.data.item;
+
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by juddy on 20/11/17.
+ * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
+ * APLICACION ADMINISTRADOR DE BEST FOOD FOR YOY (BFFY)
+ *
  */
 
 public class itemAdapter extends BaseAdapter implements ListAdapter {

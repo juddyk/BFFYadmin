@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">ADMIN</string>
     <string name="value">none</string>
+    <string name="campo_vacio">vacio</string>
 
     <!-- Best Food For You -->
     <string name="splash_name">La mejor comida para ti</string>
@@ -12,6 +13,9 @@
     <string name="sign_out">NO TE VAYAS! :(</string>
     <string name="sign_in">Hola! </string>
     <string name="save_usr">GUARDAR</string>
+    <string name="photo_selec">Selecciona una foto: </string>
+    <string name="photo_ok">Foto seleccionada </string>
+    <string name="photo_no_ok">Foto no seleccionada </string>
 
 
     <string name="main_msg">¿Que deseas hacer?</string>
@@ -20,6 +24,11 @@
     <string name="edit">MODIFICAR</string>
     <string name="delete">ELIMINAR</string>
     <string name="look">BUSCAR</string>
+    <string name="perfil">VER PERFIL</string>
+    <string name="perfil_data">DATOS PERFIL</string>
+    <string name="perfil_ok">Datos actualizados</string>
+    <string name="perfil_no_ok">Debe completar los campos</string>
+    <string name="perfil_cancel">Sin cambios</string>
 
     <string name="general_ok">Guardar Cambios</string>
     <string name="general_no_ok">Cancelar</string>
