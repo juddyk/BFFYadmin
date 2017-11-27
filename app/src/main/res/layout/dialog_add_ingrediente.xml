@@ -39,6 +39,7 @@
                 />
 
             <ImageButton
+                android:contentDescription="@string/campo_vacio"
                 android:id="@+id/btn_add_ingrediente"
                 android:layout_width="@dimen/icon"
                 android:layout_height="@dimen/icon"

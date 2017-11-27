@@ -21,6 +21,7 @@
             android:src="@drawable/eliminar_oscuro"
             android:layout_marginTop="@dimen/linear_margen"
             android:layout_marginBottom="@dimen/linear_margen"
+            android:contentDescription="@string/campo_vacio"
             />
 
         <Spinner

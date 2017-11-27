@@ -1,10 +1,5 @@
 package com.apps.reina.juddy.bffyadmin;
 
-/**
- * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
- * APLICACION ADMINISTRADOR DE BEST FOOD FOR YOY (BFFY)
- *
- */
 
 import android.content.Intent;
 import android.os.Handler;
@@ -17,10 +12,15 @@ import android.widget.TextView;
 import java.util.Timer;
 import java.util.TimerTask;
 
+/**
+ * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
+ * APLICACION ADMINISTRADOR DE BEST FOOD FOR YOY (BFFY)
+ *
+ */
+
 public class splash extends AppCompatActivity {
 
-    private static final long SPLASH_DELAY=2500;//Tiempo que dura el Splash en ms
-    private static final long text_DELAY=400;//Tiempo que dura el Splash en ms
+    private static final long text_DELAY=350;//Tiempo que dura el Splash en ms
     TextView txtNombre;
     int cnt=0;
     final String[] textToShow = { "LA", "LA MEJOR","LA MEJOR COMIDAD", "LA MEJOR COMIDAD PARA", "LA MEJOR COMIDAD PARA TI"};

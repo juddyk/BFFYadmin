@@ -1,11 +1,5 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
-/**
- * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
- * APLICACION ADMINISTRADOR DE BEST FOOD FOR YOY (BFFY)
- *
- */
-
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -18,6 +12,12 @@ import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 import com.apps.reina.juddy.bffyadmin.R;
+
+/**
+ * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
+ * APLICACION ADMINISTRADOR DE BEST FOOD FOR YOY (BFFY)
+ *
+ */
 
 public class ver extends AppCompatActivity {
     Spinner spn_categoria1,spn_categoria2;
