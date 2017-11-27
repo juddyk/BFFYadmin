@@ -21,6 +21,8 @@ public class item {
     private String conservantes;
     private String sabor;
     private String apto_para;
+    private String urlImage;
+
 
     public item() {
         this.informacion = new tabla_general();
@@ -35,6 +37,7 @@ public class item {
         this.sabor="none";
         this.conservantes="none";
         this.apto_para="none";
+        this.urlImage="";
         this.id=0;
     }
 
@@ -140,5 +143,13 @@ public class item {
 
     public void setApto_para(String apto_para) {
         this.apto_para = apto_para;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 }

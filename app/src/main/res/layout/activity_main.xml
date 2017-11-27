@@ -71,6 +71,16 @@
             android:layout_marginBottom="20dp"
             />
 
+        <Button
+            android:layout_width="@dimen/btn_width_2"
+            android:layout_height="@dimen/btn_heigh_1"
+            style="@style/btn_textBox"
+            android:id="@+id/btn_salir"
+            android:text="@string/sign_out_menu"
+            android:background="@drawable/backgroun_rect2"
+            android:layout_marginBottom="20dp"
+            />
+
 
     </LinearLayout>
 

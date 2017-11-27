@@ -18,11 +18,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".logueo.logueo" />
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".logueo.registro" />
         <activity android:name=".actividades.agregar" />
         <activity android:name=".actividades.modificar" />
         <activity android:name=".actividades.eliminar" />

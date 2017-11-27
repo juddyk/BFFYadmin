@@ -8,8 +8,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.TextView;
 
-import com.apps.reina.juddy.bffyadmin.logueo.logueo;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -25,7 +23,6 @@ public class splash extends AppCompatActivity {
     //we are going to use a handler to be able to run in our TimerTask
     final Handler handler = new Handler();
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +33,7 @@ public class splash extends AppCompatActivity {
         //Establece la vista
         setContentView(R.layout.activity_splash);
 
-
         txtNombre=findViewById(R.id.txt_name_app);
-
-
-
         task=new TimerTask() {
             @Override
             public void run() {
@@ -50,19 +43,14 @@ public class splash extends AppCompatActivity {
                         if(cnt==5){
                             tmr.cancel();
                             tmr = null;
-
-                            startActivity(new Intent(splash.this,logueo.class));
+                            startActivity(new Intent(splash.this,MainActivity.class));
                             finish();
-
-
                         }else{
                             txtNombre.setText(textToShow[cnt]);
                             cnt++;
                         }
-
                     }
                 });
-
             }
         };
 

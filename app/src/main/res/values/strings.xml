@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Admin</string>
+    <string name="app_name">ADMIN</string>
     <string name="value">none</string>
 
     <!-- Best Food For You -->
@@ -8,8 +8,9 @@
     <string name="user_email">correo</string>
     <string name="user_contrs">contraseña</string>
     <string name="user_contrs2">repetir contraseña</string>
-    <string name="log_in">INICIAR</string>
-    <string name="sign_in">REGISTRARME</string>
+    <string name="sign_out_menu">SALIR</string>
+    <string name="sign_out">NO TE VAYAS! :(</string>
+    <string name="sign_in">Hola! </string>
     <string name="save_usr">GUARDAR</string>
 
 
@@ -44,6 +45,7 @@
     <string name="item_9">APTO PARA: </string>
 
     <string name="name_pro">nombre del producto </string>
+    <string name="upload_img">Subir foto </string>
 
 
     <!--                                        LISTAS                           -->

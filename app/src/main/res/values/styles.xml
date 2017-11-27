@@ -3,10 +3,11 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/verde_oscuro</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/verde_azul</item>
+        <item name="colorPrimaryDark">@color/verde_oscuro</item>
         <item name="colorAccent">@color/colorAccent</item>
     </style>
+
 
     <style name="splash_tittle">
         <item name="android:textColor">@color/verde_oscuro</item>
@@ -15,6 +16,21 @@
         <item name="android:layout_gravity">center</item>
         <item name="android:gravity">center</item>
     </style>
+
+    <!-- AUTH theme. -->
+    <style name="AuthTheme" parent="FirebaseUI">
+        <!-- Required for sign-in flow styling -->
+        <item name="colorPrimary">@color/verde_claro</item>
+        <item name="colorPrimaryDark">@color/verde_oscuro</item>
+        <item name="colorAccent">@color/azul_oscuro</item>
+
+        <item name="colorControlNormal">@color/verde_oscuro</item>
+        <item name="colorControlActivated">@color/azul_claro</item>
+        <item name="colorControlHighlight">@color/verde_claro</item>
+        <item name="android:windowBackground">@android:color/white</item>
+    </style>
+
+
 
     <!--                                                LINEAR LAYOUT           -->
 
