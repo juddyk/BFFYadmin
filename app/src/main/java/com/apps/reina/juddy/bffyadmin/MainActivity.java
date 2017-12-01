@@ -146,7 +146,7 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
                                     .setIsSmartLockEnabled(false)
                                     .setAvailableProviders(providers)
                                     .setTheme(R.style.AuthTheme)
-                                    .setLogo(R.drawable.logo)
+                                    .setLogo(R.drawable.logo_verde_oscuro)
                                     .build(),
                             RC_AUTH);
                 }

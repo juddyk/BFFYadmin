@@ -5,6 +5,7 @@
       <w>actualizar</w>
       <w>administrador</w>
       <w>administradores</w>
+      <w>agregar</w>
       <w>aplicacion</w>
       <w>apto</w>
       <w>atencion</w>
@@ -20,7 +21,9 @@
       <w>celular</w>
       <w>conservantes</w>
       <w>correo</w>
+      <w>crea</w>
       <w>datos</w>
+      <w>defecto</w>
       <w>eliminar</w>
       <w>empaque</w>
       <w>esconde</w>
@@ -52,6 +55,7 @@
       <w>nombres</w>
       <w>obejetos</w>
       <w>objetos</w>
+      <w>otros</w>
       <w>pardo</w>
       <w>perfil</w>
       <w>producto</w>

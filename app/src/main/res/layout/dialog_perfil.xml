@@ -16,7 +16,17 @@
         android:layout_marginBottom="15dp"
         android:layout_marginStart="5dp"
         android:layout_marginEnd="5dp"
+        android:gravity="center"
         >
+
+        <ImageView
+            android:contentDescription="@string/splash_name"
+            android:layout_width="@dimen/logo_img3"
+            android:layout_height="@dimen/logo_img3"
+            android:src="@drawable/logo_verde_azul"
+            android:layout_marginBottom="30dp"
+            />
+
         <include
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

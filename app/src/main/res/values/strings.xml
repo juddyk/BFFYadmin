@@ -16,6 +16,7 @@
     <string name="photo_selec">Selecciona una foto: </string>
     <string name="photo_ok">Foto seleccionada </string>
     <string name="photo_no_ok">Foto no seleccionada </string>
+    <string name="save_item_ok">PRODUCTO AGREGADO! </string>
 
 
     <string name="main_msg">¿Que deseas hacer?</string>
@@ -61,22 +62,22 @@
 
     <string-array name="categoria1">
         <item>ESCOGER</item>
-        <item>liquidos</item>
-        <item>secos</item>
-        <item>mixtos</item>
+        <item>LIQUIDOS</item>
+        <item>SECOS</item>
+        <item>MIXTOS</item>
     </string-array>
 
     <string-array name="categoria2">
         <item>ESCOGER</item>
-        <item>alimento</item>
-        <item>complemento</item>
-        <item>suplemento</item>
+        <item>ALIMENTOS</item>
+        <item>COMPLEMENTOS</item>
+        <item>SUMPLEMENTOS</item>
     </string-array>
 
     <string-array name="suplemento">
         <item>ESCOGER</item>
-        <item>nutriente</item>
-        <item>multi-nutriente</item>
+        <item>NUTRIENTE</item>
+        <item>MULTI-NUTRIENTES</item>
     </string-array>
 
 
@@ -87,6 +88,15 @@
         <item>lacteo</item>
         <item>refresco</item>
         <item>otro</item>
+    </string-array>
+
+    <string-array name="tag_alimento_liquidos">
+        <item>GASEOSAS</item>
+        <item>GASEOSAS</item>
+        <item>JUGOS</item>
+        <item>LACTEOS</item>
+        <item>REFRESCO</item>
+        <item>OTRO</item>
     </string-array>
 
 
@@ -103,6 +113,18 @@
         <item>snack</item>
     </string-array>
 
+    <string-array name="tag_alimento_secos">
+        <item>CONDIMENTO</item>
+        <item>ENDULZANTE</item>
+        <item>FRUTOSECOS</item>
+        <item>GRANOS</item>
+        <item>PANADERIA</item>
+        <item>REPOSTERIA</item>
+        <item>SAL</item>
+        <item>SEMILLA</item>
+        <item>SNACK</item>
+    </string-array>
+
     <string-array name="alimento_mixtos">
         <item>ESCOGER</item>
         <item>carne</item>
@@ -114,19 +136,38 @@
         <item>otro</item>
     </string-array>
 
+    <string-array name="tag_alimento_mixtos">
+        <item>CARNESE</item>
+        <item>EMBUTIDOS</item>
+        <item>FRUTOS</item>
+        <item>QUESOS</item>
+        <item>SALSAS</item>
+        <item>VEGETABLES</item>
+        <item>OTRO</item>
+    </string-array>
+
     <string-array name="liquidos_sub1">
         <item>ESCOGER</item>
         <item>liquido</item>
         <item>polvo</item>
     </string-array>
 
+    <string-array name="tag_liquidos_sub1">
+        <item>LIQUIDO</item>
+        <item>POLVO</item>
+    </string-array>
+
     <string-array name="jugos">
-        <item>ESCOGER</item>
         <item>listo</item>
         <item>polvo</item>
         <item>pulpa</item>
     </string-array>
 
+    <string-array name="tag_jugos">
+        <item>LISTO</item>
+        <item>POLVO</item>
+        <item>PULPA</item>
+    </string-array>
 
     <string-array name="condimento">
         <item>ESCOGER</item>
@@ -134,10 +175,20 @@
         <item>natural</item>
     </string-array>
 
+    <string-array name="tag_condimento">
+        <item>ARTIFICIAL</item>
+        <item>NATURAL</item>
+    </string-array>
+
     <string-array name="endulzante">
         <item>ESCOGER</item>
         <item>calorico</item>
         <item>no calorico</item>
+    </string-array>
+
+    <string-array name="tag_endulzante">
+        <item>CALORICO</item>
+        <item>NOCALORICO</item>
     </string-array>
 
     <string-array name="granos">
@@ -147,10 +198,21 @@
         <item>refinado</item>
     </string-array>
 
+    <string-array name="tag_granos">
+        <item>ENTERO</item>
+        <item>PARVOLIZADO</item>
+        <item>REFINADO</item>
+    </string-array>
+
     <string-array name="snack">
         <item>ESCOGER</item>
         <item>frito</item>
         <item>horneado</item>
+    </string-array>
+
+    <string-array name="tag_snack">
+        <item>FRITO</item>
+        <item>HORNEADO</item>
     </string-array>
 
     <string-array name="carnes">
@@ -160,6 +222,11 @@
         <item>madurada</item>
     </string-array>
 
+    <string-array name="tag_carnes">
+        <item>CONSERVA</item>
+        <item>FRESCA</item>
+        <item>MADURADA</item>
+    </string-array>
 
     <string-array name="embutidos">
         <item>ESCOGER</item>
@@ -168,16 +235,32 @@
         <item>otro</item>
     </string-array>
 
+    <string-array name="tag_embutidos">
+        <item>CONSERVA</item>
+        <item>MADURADO</item>
+        <item>OTRO</item>
+    </string-array>
+
     <string-array name="secos_sub1">
         <item>ESCOGER</item>
         <item>conserva</item>
         <item>fresco</item>
     </string-array>
 
+    <string-array name="tag_secos_sub1">
+        <item>CONSERVA</item>
+        <item>FRESCO</item>
+    </string-array>
+
     <string-array name="quesos">
         <item>ESCOGER</item>
         <item>fresco</item>
         <item>madurado</item>
+    </string-array>
+
+    <string-array name="tag_quesos">
+        <item>FRESCO</item>
+        <item>MADURADO</item>
     </string-array>
 
     <string-array name="secos_sub2">
@@ -187,6 +270,12 @@
         <item>listo</item>
     </string-array>
 
+    <string-array name="tag_secos_sub2">
+        <item>CONSERVA</item>
+        <item>FRESCO</item>
+        <item>LISTO</item>
+    </string-array>
+
     <string-array name="lacteos">
         <item>ESCOGER</item>
         <item>entera</item>
@@ -194,10 +283,21 @@
         <item>semidescremeda</item>
     </string-array>
 
+    <string-array name="tag_lacteos">
+        <item>ENTERA</item>
+        <item>DESCREMADA</item>
+        <item>SEMIDESCREMADA</item>
+    </string-array>
+
     <string-array name="lacteos_sub1">
         <item>ESCOGER</item>
         <item>con lactosa</item>
         <item>sin lactosa</item>
+    </string-array>
+
+    <string-array name="tag_lacteos_sub1">
+        <item>CONLACTOSA</item>
+        <item>SINLACTOSA</item>
     </string-array>
 
     <string-array name="gramaje">

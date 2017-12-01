@@ -8,23 +8,6 @@
     >
 
     <LinearLayout
-        android:id="@+id/llM_item_0"
-        style="@style/linear_values_3"
-        >
-        <TextView
-            style="@style/table_textBox1"
-            android:text="@string/item_0"
-            />
-        <EditText
-            android:id="@+id/et_item_0"
-            style="@style/table_textBox2"
-            android:hint="@string/value"
-            android:inputType="textPersonName"
-            />
-    </LinearLayout>
-
-
-    <LinearLayout
         android:id="@+id/llM_item_8"
         style="@style/linear_values_3"
         android:visibility="gone"
@@ -62,7 +45,6 @@
     <LinearLayout
         android:id="@+id/llM_item_3"
         style="@style/linear_values_3"
-        android:visibility="gone"
         >
         <TextView
             style="@style/table_textBox1"

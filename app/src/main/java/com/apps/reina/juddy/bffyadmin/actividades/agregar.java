@@ -1,6 +1,7 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -19,9 +21,19 @@ import android.widget.Toast;
 
 import com.apps.reina.juddy.bffyadmin.R;
 import com.apps.reina.juddy.bffyadmin.data.ingrediente;
+import com.apps.reina.juddy.bffyadmin.data.item;
+import com.apps.reina.juddy.bffyadmin.data.tabla_general;
 import com.apps.reina.juddy.bffyadmin.dialog.addIngrediente;
+import com.bumptech.glide.Glide;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -34,15 +46,30 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
 
     Spinner spn_categoria1,spn_categoria2,spn_sub_categoria1,spn_sub_categoria2,spn_sub_categoria3,spn_sub_categoria4;
     Spinner spn_producto,spn_empaque,spn_unidad,spn_conservantes,spn_sabor,spn_apto_para;
-    EditText et_nombre,et_nombre_producto,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
+    EditText et_nombre,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
     TextView tv_ingredientes;
     Button btn_guardar,btn_UploadImg;
     LinearLayout rl_fragment;
+    ImageView iv_image_item;
 
-    List<ingrediente> lista_ingredientes;
     int selCat1=0,selCat2=0,selSubCat1=0,selSubCat2=0,selSubCat3=0,selSubCat4=0;
+    List<String> arrayCat1,arrayCat2,arraySubCat1,arraySubCat2,arraySubCat3,arraySubCat4;
 
+    item itemAdd;
+    tabla_general tgAdd;
+    List<ingrediente> lista_ingredientes;
+
+    //ACTIVITY RESULT
     public static final int RC_PHOTO = 1;
+
+
+    //DATABASE
+    private FirebaseDatabase mDataBase;
+    private DatabaseReference mDataBase_Reference;
+    private static final String TAG_ALIMENTOS="PRODUCTOS";
+    //STORAGE
+    private FirebaseStorage mStorage;
+    private StorageReference mStorage_Reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,35 +83,10 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        spn_categoria1=findViewById(R.id.spnADD_catgeoria_1);
-        spn_categoria2=findViewById(R.id.spnADD_catgeoria_2);
-        spn_sub_categoria1=findViewById(R.id.spnADD_subcatgeoria_1);
-        spn_sub_categoria2=findViewById(R.id.spnADD_subcatgeoria_2);
-        spn_sub_categoria3=findViewById(R.id.spnADD_subcatgeoria_3);
-        spn_sub_categoria4=findViewById(R.id.spnADD_subcatgeoria_4);
+        instanciarFIREBASE();
+        instanciarOBJETOS_interfaz();
+        instanciarOBJETOS();
 
-        et_nombre=findViewById(R.id.etADD_nombre);
-        btn_guardar=findViewById(R.id.btnADD_guardar);
-        btn_UploadImg=findViewById(R.id.btn_upload_img);
-        rl_fragment=findViewById(R.id.ll_agregar);
-
-        et_calorias=findViewById(R.id.et_calorias);
-        et_azucar=findViewById(R.id.et_azucar);
-        et_sodio=findViewById(R.id.et_sodio);
-
-        et_nombre_producto=findViewById(R.id.et_item_0);
-        tv_ingredientes=findViewById(R.id.tv_item_1);
-        et_fabricante=findViewById(R.id.et_item_2);
-        et_gramaje=findViewById(R.id.et_item_3);
-        et_lineAtencion=findViewById(R.id.et_item_4);
-        spn_producto=findViewById(R.id.spn_item_5);
-        spn_empaque=findViewById(R.id.spn_item_6);
-        spn_unidad=findViewById(R.id.spn_item_3_1);
-        spn_conservantes=findViewById(R.id.spn_item_7);
-        spn_sabor=findViewById(R.id.spn_item_8);
-        spn_apto_para=findViewById(R.id.spn_item_9);
-
-        lista_ingredientes=new ArrayList<>();
 
         //SELECCION CATEGORIA 1
         spn_categoria1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -113,10 +115,16 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                 selSubCat2=0;
                 selSubCat3=0;
                 selSubCat4=0;
+                arraySubCat1=new ArrayList<>();
+                arraySubCat2=new ArrayList<>();
+                arraySubCat3=new ArrayList<>();
+                arraySubCat4=new ArrayList<>();
+
                 if(position==0){//Si se escoge la opcion no valida
                     spn_categoria2.setVisibility(View.GONE);
                 }else{
                     selCat1=position;
+
                     spn_categoria2.setVisibility(View.VISIBLE);
                 }
 
@@ -149,6 +157,10 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                 selSubCat2=0;
                 selSubCat3=0;
                 selSubCat4=0;
+                arraySubCat1=new ArrayList<>();
+                arraySubCat2=new ArrayList<>();
+                arraySubCat3=new ArrayList<>();
+                arraySubCat4=new ArrayList<>();
 
                 if(position==0){//Si se escoge la opcion no valida
                     spn_sub_categoria1.setVisibility(View.GONE);
@@ -217,6 +229,10 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                         selSubCat2=0;
                         selSubCat3=0;
                         selSubCat4=0;
+                        arraySubCat1=new ArrayList<>();
+                        arraySubCat2=new ArrayList<>();
+                        arraySubCat3=new ArrayList<>();
+                        arraySubCat4=new ArrayList<>();
                     }
                 }
             }
@@ -245,15 +261,16 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                 selSubCat2=0;
                 selSubCat3=0;
                 selSubCat4=0;
+                arraySubCat2=new ArrayList<>();
+                arraySubCat3=new ArrayList<>();
+                arraySubCat4=new ArrayList<>();
                 if(position==0){//Si se escoge la opcion no valida
-
                     spn_sub_categoria2.setVisibility(View.GONE);
-
                 }else{
                     selSubCat1=position;
                     if(selCat2==3){//SUPLEMENTOS
+                        arraySubCat1=Arrays.asList(getResources().getStringArray(R.array.suplemento));
                         et_nombre.setVisibility(View.VISIBLE);
-
                         spn_sub_categoria2.setVisibility(View.GONE);
                         spn_sub_categoria3.setVisibility(View.GONE);
                         spn_sub_categoria4.setVisibility(View.GONE);
@@ -265,9 +282,14 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                         selSubCat2=0;
                         selSubCat3=0;
                         selSubCat4=0;
+                        arraySubCat2=new ArrayList<>();
+                        arraySubCat3=new ArrayList<>();
+                        arraySubCat4=new ArrayList<>();
                     }else if(selCat1==1 && selCat2==1){//LIQUIDOS-ALIMENTO
+                        arraySubCat1=Arrays.asList(getResources().getStringArray(R.array.tag_alimento_liquidos));
                         if(position==3 || position==4){//LACTEOS o REFRESCOS
                             spn_sub_categoria2.setVisibility(View.VISIBLE);
+                            arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_liquidos_sub1));
                             ArrayAdapter<CharSequence> adapter;
                             //Se crea un ArrayAdapter usando el array LIQUIDOS y el spinner por defecto
                             adapter = ArrayAdapter.createFromResource(agregar.this, R.array.liquidos_sub1, android.R.layout.simple_spinner_item);
@@ -277,6 +299,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                             spn_sub_categoria2.setAdapter(adapter);
                         }else if(position==2){
                             spn_sub_categoria2.setVisibility(View.VISIBLE);
+                            arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_jugos));
                             ArrayAdapter<CharSequence> adapter;
                             //Se crea un ArrayAdapter usando el array JUGOS y el spinner por defecto
                             adapter = ArrayAdapter.createFromResource(agregar.this, R.array.jugos, android.R.layout.simple_spinner_item);
@@ -298,11 +321,16 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                             selSubCat2=0;
                             selSubCat3=0;
                             selSubCat4=0;
+                            arraySubCat2=new ArrayList<>();
+                            arraySubCat3=new ArrayList<>();
+                            arraySubCat4=new ArrayList<>();
                         }
                     }else if(selCat1==2 && selCat2==1){//SECOS-ALIMENTO
                         ArrayAdapter<CharSequence> adapter;
+                        arraySubCat1=Arrays.asList(getResources().getStringArray(R.array.tag_alimento_secos));
                         switch (position){
                             case 1://condimento_especies
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_condimento));
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
                                 //Se crea un ArrayAdapter usando el array condimentos y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.condimento, android.R.layout.simple_spinner_item);
@@ -313,6 +341,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 break;
                             case 2://endulzante
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_endulzante));
                                 //Se crea un ArrayAdapter usando el array endulzante y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.endulzante, android.R.layout.simple_spinner_item);
                                 //Se especifica el diseño a utilizar en los items del Spinner
@@ -322,6 +351,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 break;
                             case 4://granos
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_granos));
                                 //Se crea un ArrayAdapter usando el array granos y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.granos, android.R.layout.simple_spinner_item);
                                 //Se especifica el diseño a utilizar en los items del Spinner
@@ -331,6 +361,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 break;
                             case 9://snack
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_snack));
                                 //Se crea un ArrayAdapter usando el array snack y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.snack, android.R.layout.simple_spinner_item);
                                 //Se especifica el diseño a utilizar en los items del Spinner
@@ -352,13 +383,18 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 selSubCat2=0;
                                 selSubCat3=0;
                                 selSubCat4=0;
+                                arraySubCat2=new ArrayList<>();
+                                arraySubCat3=new ArrayList<>();
+                                arraySubCat4=new ArrayList<>();
                                 break;
                         }
                     }else if(selCat1==3 && selCat2==1){//MIXTOS-ALIMENTO
+                        arraySubCat1= Arrays.asList(getResources().getStringArray(R.array.tag_alimento_mixtos));
                         ArrayAdapter<CharSequence> adapter;
                         switch (position){
                             case 1:
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_carnes));
                                 //Se crea un ArrayAdapter usando el array carnes y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.carnes, android.R.layout.simple_spinner_item);
                                 //Se especifica el diseño a utilizar en los items del Spinner
@@ -368,6 +404,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 break;
                             case 2:
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_embutidos));
                                 //Se crea un ArrayAdapter usando el array embutidos y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.embutidos, android.R.layout.simple_spinner_item);
                                 //Se especifica el diseño a utilizar en los items del Spinner
@@ -377,6 +414,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 break;
                             case 3:
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_secos_sub1));
                                 //Se crea un ArrayAdapter usando el array fruta y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.secos_sub1, android.R.layout.simple_spinner_item);
                                 //Se especifica el diseño a utilizar en los items del Spinner
@@ -386,6 +424,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 break;
                             case 4:
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_quesos));
                                 //Se crea un ArrayAdapter usando el array queso y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.quesos, android.R.layout.simple_spinner_item);
                                 //Se especifica el diseño a utilizar en los items del Spinner
@@ -395,6 +434,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 break;
                             case 6:
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_secos_sub1));
                                 //Se crea un ArrayAdapter usando el array vegetable y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.secos_sub1, android.R.layout.simple_spinner_item);
                                 //Se especifica el diseño a utilizar en los items del Spinner
@@ -404,6 +444,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 break;
                             case 7:
                                 spn_sub_categoria2.setVisibility(View.VISIBLE);
+                                arraySubCat2=Arrays.asList(getResources().getStringArray(R.array.tag_secos_sub2));
                                 //Se crea un ArrayAdapter usando el array OTROS y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.secos_sub2, android.R.layout.simple_spinner_item);
                                 //Se especifica el diseño a utilizar en los items del Spinner
@@ -425,6 +466,9 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                                 selSubCat2=0;
                                 selSubCat3=0;
                                 selSubCat4=0;
+                                arraySubCat2=new ArrayList<>();
+                                arraySubCat3=new ArrayList<>();
+                                arraySubCat4=new ArrayList<>();
                                 break;
                         }
                     }
@@ -452,6 +496,8 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                 //Reinicia la seleccion a 0
                 selSubCat3=0;
                 selSubCat4=0;
+                arraySubCat3=new ArrayList<>();
+                arraySubCat4=new ArrayList<>();
                 if(position==0){//Si se escoge la opcion no valida
                     //Oculta spinner sub-categoria 3
                     spn_sub_categoria3.setVisibility(View.GONE);
@@ -462,6 +508,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                     if(selCat1==1 && selCat2==1){//LIQUIDOS-ALIMENTO
                         if(selSubCat1==3){//LACTEOS
                             spn_sub_categoria3.setVisibility(View.VISIBLE);
+                            arraySubCat3=Arrays.asList(getResources().getStringArray(R.array.tag_lacteos));
                             ArrayAdapter<CharSequence> adapter;
                             //Se crea un ArrayAdapter usando el array LACTEOS y el spinner por defecto
                             adapter = ArrayAdapter.createFromResource(agregar.this, R.array.lacteos, android.R.layout.simple_spinner_item);
@@ -480,7 +527,22 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                             //Reinicia la seleccion a 0
                             selSubCat3=0;
                             selSubCat4=0;
+                            arraySubCat3=new ArrayList<>();
+                            arraySubCat4=new ArrayList<>();
                         }
+                    }else{//MIXTO & SECOS -ALIMENTO
+                        et_nombre.setVisibility(View.VISIBLE);
+
+                        spn_sub_categoria3.setVisibility(View.GONE);
+                        spn_sub_categoria4.setVisibility(View.GONE);
+                        //Establece la seleccion por defecto en los demas spinner de sub-categoria
+                        spn_sub_categoria3.setSelection(0);
+                        spn_sub_categoria4.setSelection(0);
+                        //Reinicia la seleccion a 0
+                        selSubCat3=0;
+                        selSubCat4=0;
+                        arraySubCat3=new ArrayList<>();
+                        arraySubCat4=new ArrayList<>();
                     }
 
 
@@ -505,6 +567,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                 spn_sub_categoria4.setSelection(0);
                 //Reinicia la seleccion a 0
                 selSubCat4=0;
+                arraySubCat4=new ArrayList<>();
                 if(position==0){//Si se escoge la opcion no valida
                     //Oculta todos los spinner
                     spn_sub_categoria4.setVisibility(View.GONE);
@@ -515,6 +578,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                         if(selSubCat1==3){//LACTEOS
                             if(selSubCat3==2 || selSubCat3==3){//descremada o semidescremada
                                 spn_sub_categoria4.setVisibility(View.VISIBLE);
+                                arraySubCat4=Arrays.asList(getResources().getStringArray(R.array.tag_lacteos_sub1));
                                 ArrayAdapter<CharSequence> adapter;
                                 //Se crea un ArrayAdapter usando el array LACTEOS_sub1 y el spinner por defecto
                                 adapter = ArrayAdapter.createFromResource(agregar.this, R.array.lacteos_sub1, android.R.layout.simple_spinner_item);
@@ -530,6 +594,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                             spn_sub_categoria4.setSelection(0);
                             //Reinicia la seleccion a 0
                             selSubCat4=0;
+                            arraySubCat4=new ArrayList<>();
                         }
                     }
                 }
@@ -612,6 +677,66 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
             }
         });
 
+        btn_guardar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(selCat1!=0 && selCat2!=0){
+                    guardarItem();
+                    guardarTablaGeneral();
+                    DatabaseReference mRef;
+
+                    lista_ingredientes.add(new ingrediente("none"));
+                    lista_ingredientes.add(new ingrediente("none"));
+                    lista_ingredientes.add(new ingrediente("none"));
+
+                    itemAdd.setIngredientes(lista_ingredientes);
+                    itemAdd.setInformacion(tgAdd);
+
+
+
+                    if(selSubCat1!=0){
+                        if(selSubCat2!=0){
+                            if(selSubCat3!=0){
+                                if(selSubCat4!=0){
+                                    mRef=mDataBase_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2))
+                                            .child(arraySubCat1.get(selSubCat1-1))
+                                            .child(arraySubCat2.get(selSubCat2-1))
+                                            .child(arraySubCat3.get(selSubCat3-1))
+                                            .child(arraySubCat4.get(selSubCat4-1))
+                                            .push();
+                                }else{
+                                    mRef=mDataBase_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2))
+                                            .child(arraySubCat1.get(selSubCat1-1))
+                                            .child(arraySubCat2.get(selSubCat2-1))
+                                            .child(arraySubCat3.get(selSubCat3-1))
+                                            .push();
+                                }
+                            }else{
+                                mRef=mDataBase_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2))
+                                        .child(arraySubCat1.get(selSubCat1-1))
+                                        .child(arraySubCat2.get(selSubCat2-1))
+                                        .push();
+                            }
+                        }else{
+                            mRef=mDataBase_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2))
+                                    .child(arraySubCat1.get(selSubCat1-1))
+                                    .push();
+                        }
+                    }else{
+                        mRef=mDataBase_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2))
+                                .push();
+                    }
+
+                    mRef.setValue(itemAdd).addOnSuccessListener(agregar.this, new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(agregar.this, getResources().getString(R.string.save_item_ok),Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }
+            }
+        });
+
     }
 
     void limpiar_interfaz(){
@@ -619,7 +744,6 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
         et_azucar.setText("");
         et_sodio.setText("");
 
-        et_nombre_producto.setText("");
         tv_ingredientes.setText("");
         et_fabricante.setText("");
         et_gramaje.setText("");
@@ -630,6 +754,98 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
         spn_conservantes.setSelection(0);
         spn_sabor.setSelection(0);
         spn_apto_para.setSelection(0);
+
+    }
+
+    void instanciarFIREBASE(){
+        //DataBase
+        mDataBase=FirebaseDatabase.getInstance();
+        mDataBase_Reference=mDataBase.getReference().child(TAG_ALIMENTOS);
+        //Storage
+        mStorage=FirebaseStorage.getInstance();
+        mStorage_Reference=mStorage.getReference().child(TAG_ALIMENTOS);
+    }
+
+    void instanciarOBJETOS(){
+
+        arrayCat1=Arrays.asList(getResources().getStringArray(R.array.categoria1));
+        arrayCat2=Arrays.asList(getResources().getStringArray(R.array.categoria2));
+        arraySubCat1=new ArrayList<>();
+        arraySubCat2=new ArrayList<>();
+        arraySubCat3=new ArrayList<>();
+        arraySubCat4=new ArrayList<>();
+
+        itemAdd=new item();
+        tgAdd=new tabla_general();
+        lista_ingredientes=new ArrayList<>();
+
+    }
+
+    void instanciarOBJETOS_interfaz(){
+        spn_categoria1=findViewById(R.id.spnADD_catgeoria_1);
+        spn_categoria2=findViewById(R.id.spnADD_catgeoria_2);
+        spn_sub_categoria1=findViewById(R.id.spnADD_subcatgeoria_1);
+        spn_sub_categoria2=findViewById(R.id.spnADD_subcatgeoria_2);
+        spn_sub_categoria3=findViewById(R.id.spnADD_subcatgeoria_3);
+        spn_sub_categoria4=findViewById(R.id.spnADD_subcatgeoria_4);
+
+        et_nombre=findViewById(R.id.etADD_nombre);
+        btn_guardar=findViewById(R.id.btnADD_guardar);
+        btn_UploadImg=findViewById(R.id.btn_upload_img);
+        rl_fragment=findViewById(R.id.ll_agregar);
+
+        et_calorias=findViewById(R.id.et_calorias);
+        et_azucar=findViewById(R.id.et_azucar);
+        et_sodio=findViewById(R.id.et_sodio);
+
+        tv_ingredientes=findViewById(R.id.tv_item_1);
+        et_fabricante=findViewById(R.id.et_item_2);
+        et_gramaje=findViewById(R.id.et_item_3);
+        et_lineAtencion=findViewById(R.id.et_item_4);
+        spn_producto=findViewById(R.id.spn_item_5);
+        spn_empaque=findViewById(R.id.spn_item_6);
+        spn_unidad=findViewById(R.id.spn_item_3_1);
+        spn_conservantes=findViewById(R.id.spn_item_7);
+        spn_sabor=findViewById(R.id.spn_item_8);
+        spn_apto_para=findViewById(R.id.spn_item_9);
+
+        iv_image_item=findViewById(R.id.iv_image_item);
+    }
+
+    void guardarTablaGeneral(){
+        if(!et_calorias.getText().toString().isEmpty()){
+            tgAdd.setCalorias(Long.parseLong(et_calorias.getText().toString()));
+        }
+
+        if(!et_azucar.getText().toString().isEmpty()){
+            tgAdd.setAzucar(Double.parseDouble(et_azucar.getText().toString()));
+        }
+
+        if(!et_sodio.getText().toString().isEmpty()){
+            tgAdd.setSodio(Double.parseDouble(et_sodio.getText().toString()));
+        }
+
+
+    }
+
+    void guardarItem(){
+        if(!et_nombre.getText().toString().isEmpty()){
+            itemAdd.setNombre(et_nombre.getText().toString());
+        }
+
+        if(!et_fabricante.getText().toString().isEmpty()){
+            itemAdd.setFabricante(et_fabricante.getText().toString());
+        }
+
+        if(!et_gramaje.getText().toString().isEmpty()){
+            itemAdd.setGramaje(Long.parseLong(et_gramaje.getText().toString()));
+        }
+
+        if(!spn_unidad.getSelectedItem().toString().isEmpty()){
+            itemAdd.setUnidad_gramaje(spn_unidad.getSelectedItem().toString());
+        }
+
+
 
     }
 
@@ -676,11 +892,25 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
         if(requestCode == RC_PHOTO){
             if(resultCode == RESULT_OK){
                 Toast.makeText(agregar.this, getResources().getString(R.string.photo_ok),Toast.LENGTH_SHORT).show();
+                Uri selected=data.getData();
+                StorageReference ref=mStorage_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2)).child(itemAdd.getNombre());
+
+                ref.putFile(selected).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Uri download=taskSnapshot.getDownloadUrl();
+                        if(download!= null){
+                            itemAdd.setUrlImage(download.toString());
+                        }
+                    }
+                });
+
             }else if(resultCode == RESULT_CANCELED){
                 Toast.makeText(agregar.this, getResources().getString(R.string.photo_no_ok),Toast.LENGTH_SHORT).show();
                 finish();
             }
         }
+
     }
 
 

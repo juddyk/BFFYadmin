@@ -9,7 +9,7 @@
 
     <TextView
         android:id="@+id/tv_nombre"
-        style="@style/table_textBox3"
+        style="@style/table_textBox5"
         android:text="@string/value"
         android:minHeight="30dp"
         android:minWidth="150dp"

@@ -1,6 +1,7 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
 import android.content.Intent;
+import android.media.Image;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -32,10 +34,11 @@ import java.util.List;
 public class modificar extends AppCompatActivity implements addIngrediente.ingredienteListener{
     Spinner spn_categoria1,spn_categoria2, spn_producto,spn_empaque,spn_unidad;
     Spinner spn_conservantes,spn_sabor,spn_apto_para;
-    EditText et_nombre,et_nombre_producto,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
+    EditText et_nombre,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
     TextView tv_ingredientes;
     Button btn_guardar,btn_UploadImg;
     LinearLayout rl_fragment;
+    ImageView iv_foto;
 
     List<ingrediente> lista_ingredientes;
     int selCat1=0,selCat2=0;
@@ -66,7 +69,6 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         et_azucar=findViewById(R.id.et_azucar);
         et_sodio=findViewById(R.id.et_sodio);
 
-        et_nombre_producto=findViewById(R.id.et_item_0);
         tv_ingredientes=findViewById(R.id.tv_item_1);
         et_fabricante=findViewById(R.id.et_item_2);
         et_gramaje=findViewById(R.id.et_item_3);
@@ -77,6 +79,8 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         spn_conservantes=findViewById(R.id.spn_item_7);
         spn_sabor=findViewById(R.id.spn_item_8);
         spn_apto_para=findViewById(R.id.spn_item_9);
+
+        iv_foto=findViewById(R.id.iv_image_item);
 
         lista_ingredientes=new ArrayList<>();
 

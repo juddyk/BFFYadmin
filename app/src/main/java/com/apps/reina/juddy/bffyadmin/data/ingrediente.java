@@ -15,6 +15,12 @@ public class ingrediente {
         this.id=0;
     }
 
+    public ingrediente(String name) {
+        this.nombre=name;
+        this.id=0;
+    }
+
+
     public String getNombre() {
         return nombre;
     }

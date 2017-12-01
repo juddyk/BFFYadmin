@@ -16,7 +16,7 @@ public class item {
     private List<ingrediente> ingredientes;
     private String fabricante;
     private long gramaje;
-    private long unidad_gramaje;
+    private String unidad_gramaje;
     private String linea_atencion;
     private String nacional;
     private String empaque;
@@ -32,7 +32,7 @@ public class item {
         this.ingredientes=new ArrayList<>();
         this.fabricante = "none";
         this.gramaje = 0;
-        this.unidad_gramaje = 1;
+        this.unidad_gramaje = "";
         this.linea_atencion = "none";
         this.nacional = "none";
         this.empaque = "none";
@@ -91,11 +91,11 @@ public class item {
         this.gramaje = gramaje;
     }
 
-    public long getUnidad_gramaje() {
+    public String getUnidad_gramaje() {
         return unidad_gramaje;
     }
 
-    public void setUnidad_gramaje(long unidad_gramaje) {
+    public void setUnidad_gramaje(String unidad_gramaje) {
         this.unidad_gramaje = unidad_gramaje;
     }
 
