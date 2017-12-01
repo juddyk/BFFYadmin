@@ -23,7 +23,7 @@ public class item {
     private String conservantes;
     private String sabor;
     private String apto_para;
-    private String urlImage;
+    private image_item urlImage;
 
 
     public item() {
@@ -39,7 +39,7 @@ public class item {
         this.sabor="none";
         this.conservantes="none";
         this.apto_para="none";
-        this.urlImage="";
+        this.urlImage=new image_item();
         this.id=0;
     }
 
@@ -147,11 +147,11 @@ public class item {
         this.apto_para = apto_para;
     }
 
-    public String getUrlImage() {
+    public image_item getUrlImage() {
         return urlImage;
     }
 
-    public void setUrlImage(String urlImage) {
+    public void setUrlImage(image_item urlImage) {
         this.urlImage = urlImage;
     }
 }

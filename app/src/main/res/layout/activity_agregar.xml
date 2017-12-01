@@ -99,6 +99,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                layout="@layout/ver_image_item" >
+            </include>
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
                 layout="@layout/modificar_image_item" >
             </include>
 

@@ -1,7 +1,7 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
 import android.content.Intent;
-import android.media.Image;
+import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -36,14 +36,16 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     Spinner spn_conservantes,spn_sabor,spn_apto_para;
     EditText et_nombre,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
     TextView tv_ingredientes;
-    Button btn_guardar,btn_UploadImg;
+    Button btn_guardar,btn_UploadImg_pro,btn_UploadImg_nut;
     LinearLayout rl_fragment;
-    ImageView iv_foto;
+    ImageView iv_foto_pro,iv_foto_nut;
 
     List<ingrediente> lista_ingredientes;
     int selCat1=0,selCat2=0;
 
-    public static final int RC_PHOTO = 1;
+    //ACTIVITY RESULT
+    public static final int RC_PHOTO_PRO = 1;
+    public static final int RC_PHOTO_NUT = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,30 +59,7 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
-        spn_categoria1=findViewById(R.id.spnEDT_catgeoria_1);
-        spn_categoria2=findViewById(R.id.spnEDT_catgeoria_2);
-
-        et_nombre=findViewById(R.id.etEDT_nombre);
-        btn_guardar=findViewById(R.id.btnEDT_guardar);
-        btn_UploadImg=findViewById(R.id.btn_upload_img);
-        rl_fragment=findViewById(R.id.ll_modificar);
-
-        et_calorias=findViewById(R.id.et_calorias);
-        et_azucar=findViewById(R.id.et_azucar);
-        et_sodio=findViewById(R.id.et_sodio);
-
-        tv_ingredientes=findViewById(R.id.tv_item_1);
-        et_fabricante=findViewById(R.id.et_item_2);
-        et_gramaje=findViewById(R.id.et_item_3);
-        et_lineAtencion=findViewById(R.id.et_item_4);
-        spn_producto=findViewById(R.id.spn_item_5);
-        spn_empaque=findViewById(R.id.spn_item_6);
-        spn_unidad=findViewById(R.id.spn_item_3_1);
-        spn_conservantes=findViewById(R.id.spn_item_7);
-        spn_sabor=findViewById(R.id.spn_item_8);
-        spn_apto_para=findViewById(R.id.spn_item_9);
-
-        iv_foto=findViewById(R.id.iv_image_item);
+        instanciarOBJETOS_interfaz();
 
         lista_ingredientes=new ArrayList<>();
 
@@ -149,14 +128,25 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
             }
         });
 
-        btn_UploadImg.setOnClickListener(new View.OnClickListener() {
+        btn_UploadImg_pro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 
-                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_selec)), RC_PHOTO);
+                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_selec)), RC_PHOTO_PRO);
+            }
+        });
+
+        btn_UploadImg_nut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+
+                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_selec)), RC_PHOTO_NUT);
             }
         });
 
@@ -189,6 +179,35 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         et_nombre.setText("");
         rl_fragment.setVisibility(View.GONE);
         btn_guardar.setVisibility(View.GONE);
+    }
+
+    void instanciarOBJETOS_interfaz(){
+        spn_categoria1=findViewById(R.id.spnEDT_catgeoria_1);
+        spn_categoria2=findViewById(R.id.spnEDT_catgeoria_2);
+
+        et_nombre=findViewById(R.id.etEDT_nombre);
+        btn_guardar=findViewById(R.id.btnEDT_guardar);
+        btn_UploadImg_pro=findViewById(R.id.btn_upload_img_prod);
+        btn_UploadImg_nut=findViewById(R.id.btn_upload_img_nutricion);
+        rl_fragment=findViewById(R.id.ll_modificar);
+
+        et_calorias=findViewById(R.id.et_calorias);
+        et_azucar=findViewById(R.id.et_azucar);
+        et_sodio=findViewById(R.id.et_sodio);
+
+        tv_ingredientes=findViewById(R.id.tv_item_1);
+        et_fabricante=findViewById(R.id.et_item_2);
+        et_gramaje=findViewById(R.id.et_item_3);
+        et_lineAtencion=findViewById(R.id.et_item_4);
+        spn_producto=findViewById(R.id.spn_item_5);
+        spn_empaque=findViewById(R.id.spn_item_6);
+        spn_unidad=findViewById(R.id.spn_item_3_1);
+        spn_conservantes=findViewById(R.id.spn_item_7);
+        spn_sabor=findViewById(R.id.spn_item_8);
+        spn_apto_para=findViewById(R.id.spn_item_9);
+
+        iv_foto_pro=findViewById(R.id.iv_image_item_pro);
+        iv_foto_nut=findViewById(R.id.iv_image_item_nut);
     }
 
     @Override
@@ -231,13 +250,27 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RC_PHOTO){
-            if(resultCode == RESULT_OK){
+        if(resultCode == RESULT_OK){
+            if(requestCode == RC_PHOTO_PRO){
                 Toast.makeText(modificar.this, getResources().getString(R.string.photo_ok),Toast.LENGTH_SHORT).show();
-            }else if(resultCode == RESULT_CANCELED){
-                Toast.makeText(modificar.this, getResources().getString(R.string.photo_no_ok),Toast.LENGTH_SHORT).show();
-                finish();
+                Uri selected=data.getData();
+                iv_foto_pro.setImageURI(selected);
+
+            }else if(requestCode == RC_PHOTO_NUT){
+                Toast.makeText(modificar.this, getResources().getString(R.string.photo_ok),Toast.LENGTH_SHORT).show();
+                Uri selected=data.getData();
+                iv_foto_nut.setImageURI(selected);
             }
+
+        }else if(resultCode == RESULT_CANCELED){
+            Toast.makeText(modificar.this, getResources().getString(R.string.photo_no_ok),Toast.LENGTH_SHORT).show();
+            if(requestCode == RC_PHOTO_PRO){
+                iv_foto_pro.setImageDrawable(getResources().getDrawable(R.drawable.logo_azul_oscuro));
+            }else if(requestCode == RC_PHOTO_NUT){
+                iv_foto_nut.setImageDrawable(getResources().getDrawable(R.drawable.logo_azul_oscuro));
+            }
+
+            finish();
         }
     }
 

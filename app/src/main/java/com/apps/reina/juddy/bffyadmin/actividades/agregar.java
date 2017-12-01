@@ -1,6 +1,8 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -20,9 +22,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.reina.juddy.bffyadmin.R;
+import com.apps.reina.juddy.bffyadmin.data.image_item;
 import com.apps.reina.juddy.bffyadmin.data.ingrediente;
 import com.apps.reina.juddy.bffyadmin.data.item;
 import com.apps.reina.juddy.bffyadmin.data.tabla_general;
+import com.apps.reina.juddy.bffyadmin.dataAdapter.imageAdapter;
 import com.apps.reina.juddy.bffyadmin.dialog.addIngrediente;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -32,6 +36,8 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -48,19 +54,21 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
     Spinner spn_producto,spn_empaque,spn_unidad,spn_conservantes,spn_sabor,spn_apto_para;
     EditText et_nombre,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
     TextView tv_ingredientes;
-    Button btn_guardar,btn_UploadImg;
+    Button btn_guardar,btn_UploadImg_pro,btn_UploadImg_nut;
     LinearLayout rl_fragment;
-    ImageView iv_image_item;
+    ImageView iv_foto_pro,iv_foto_nut;
 
     int selCat1=0,selCat2=0,selSubCat1=0,selSubCat2=0,selSubCat3=0,selSubCat4=0;
     List<String> arrayCat1,arrayCat2,arraySubCat1,arraySubCat2,arraySubCat3,arraySubCat4;
 
     item itemAdd;
     tabla_general tgAdd;
+    image_item images;
     List<ingrediente> lista_ingredientes;
 
     //ACTIVITY RESULT
-    public static final int RC_PHOTO = 1;
+    public static final int RC_PHOTO_PRO = 1;
+    public static final int RC_PHOTO_NUT = 2;
 
 
     //DATABASE
@@ -124,7 +132,6 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                     spn_categoria2.setVisibility(View.GONE);
                 }else{
                     selCat1=position;
-
                     spn_categoria2.setVisibility(View.VISIBLE);
                 }
 
@@ -638,21 +645,25 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
             }
         });
 
-        btn_guardar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                finish();
-            }
-        });
-
-        btn_UploadImg.setOnClickListener(new View.OnClickListener() {
+        btn_UploadImg_pro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
                 intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 
-                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_selec)), RC_PHOTO);
+                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_selec)), RC_PHOTO_PRO);
+            }
+        });
+
+        btn_UploadImg_nut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
+
+                startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_selec)), RC_PHOTO_NUT);
             }
         });
 
@@ -691,8 +702,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
 
                     itemAdd.setIngredientes(lista_ingredientes);
                     itemAdd.setInformacion(tgAdd);
-
-
+                    itemAdd.setUrlImage(images);
 
                     if(selSubCat1!=0){
                         if(selSubCat2!=0){
@@ -778,6 +788,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
         itemAdd=new item();
         tgAdd=new tabla_general();
         lista_ingredientes=new ArrayList<>();
+        images=new image_item();
 
     }
 
@@ -791,7 +802,8 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
 
         et_nombre=findViewById(R.id.etADD_nombre);
         btn_guardar=findViewById(R.id.btnADD_guardar);
-        btn_UploadImg=findViewById(R.id.btn_upload_img);
+        btn_UploadImg_pro=findViewById(R.id.btn_upload_img_prod);
+        btn_UploadImg_nut=findViewById(R.id.btn_upload_img_nutricion);
         rl_fragment=findViewById(R.id.ll_agregar);
 
         et_calorias=findViewById(R.id.et_calorias);
@@ -809,7 +821,9 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
         spn_sabor=findViewById(R.id.spn_item_8);
         spn_apto_para=findViewById(R.id.spn_item_9);
 
-        iv_image_item=findViewById(R.id.iv_image_item);
+        iv_foto_pro=findViewById(R.id.iv_image_item_pro);
+        iv_foto_nut=findViewById(R.id.iv_image_item_nut);
+
     }
 
     void guardarTablaGeneral(){
@@ -889,27 +903,68 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(requestCode == RC_PHOTO){
-            if(resultCode == RESULT_OK){
+        if(resultCode == RESULT_OK){
+            if(requestCode == RC_PHOTO_PRO){
                 Toast.makeText(agregar.this, getResources().getString(R.string.photo_ok),Toast.LENGTH_SHORT).show();
                 Uri selected=data.getData();
-                StorageReference ref=mStorage_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2)).child(itemAdd.getNombre());
+                StorageReference ref=mStorage_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2)).child("PRO_"+itemAdd.getNombre());
 
                 ref.putFile(selected).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Uri download=taskSnapshot.getDownloadUrl();
                         if(download!= null){
-                            itemAdd.setUrlImage(download.toString());
+                            images.setProducto(download.toString());
                         }
                     }
                 });
 
-            }else if(resultCode == RESULT_CANCELED){
-                Toast.makeText(agregar.this, getResources().getString(R.string.photo_no_ok),Toast.LENGTH_SHORT).show();
-                finish();
+                try {
+                    final InputStream imageStream = getContentResolver().openInputStream(selected);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    iv_foto_pro.setImageBitmap(selectedImage);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(agregar.this, getResources().getString(R.string.photo_error), Toast.LENGTH_LONG).show();
+                }
+
+            }else if(requestCode == RC_PHOTO_NUT){
+                Toast.makeText(agregar.this, getResources().getString(R.string.photo_ok),Toast.LENGTH_SHORT).show();
+                Uri selected=data.getData();
+                StorageReference ref=mStorage_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2)).child("NUT_"+itemAdd.getNombre());
+
+                ref.putFile(selected).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Uri download=taskSnapshot.getDownloadUrl();
+                        if(download!= null){
+                            images.setNutricion(download.toString());
+                        }
+                    }
+                });
+
+                try {
+                    final InputStream imageStream = getContentResolver().openInputStream(selected);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    iv_foto_nut.setImageBitmap(selectedImage);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(agregar.this, getResources().getString(R.string.photo_error), Toast.LENGTH_LONG).show();
+                }
+
             }
+
+        }else if(resultCode == RESULT_CANCELED){
+            Toast.makeText(agregar.this, getResources().getString(R.string.photo_no_ok),Toast.LENGTH_SHORT).show();
+            if(requestCode == RC_PHOTO_PRO){
+                iv_foto_pro.setImageDrawable(getResources().getDrawable(R.drawable.logo_azul_oscuro));
+            }else if(requestCode == RC_PHOTO_NUT){
+                iv_foto_nut.setImageDrawable(getResources().getDrawable(R.drawable.logo_azul_oscuro));
+            }
+
+            finish();
         }
+
 
     }
 
