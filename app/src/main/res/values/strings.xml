@@ -18,8 +18,12 @@
     <string name="photo_no_ok">Foto no seleccionada </string>
     <string name="photo_error">No se pudo mostrar la imagen </string>
     <string name="save_item_ok">PRODUCTO AGREGADO! </string>
+    <string name="save_item_no_ok">NO SE PUDO AGREGAR! </string>
+    <string name="delete_item_ok">PRODUCTO ELIMINADO! </string>
+    <string name="delete_item_no_ok">NO SE PUDO ELIMINAR! </string>
     <string name="item_no_found">PRODUCTO NO ENCONTRADO! </string>
     <string name="item_found">PRODUCTO ENCONTRADO! </string>
+    <string name="item_wait">Estamos buscando! </string>
 
 
     <string name="main_msg">¿Que deseas hacer?</string>
@@ -86,13 +90,13 @@
 
     <string-array name="tag_suplemento">
         <item>NUTRIENTE</item>
-        <item>MULTI-NUTRIENTE</item>
+        <item>MULTINUTRIENTE</item>
     </string-array>
 
 
     <string-array name="child_suplementos">
         <item>/NUTRIENTE</item>
-        <item>/MULTI-NUTRIENTES</item>
+        <item>/MULTINUTRIENTE</item>
     </string-array>
 
     <string-array name="alimento_liquidos">
@@ -120,16 +124,16 @@
         <item>/JUGOS/PULPA</item>
 
         <item>/LACTEOS/POLVO/ENTERA</item>
-        <item>/LACTEOS/POLVO/DESCREMADA/CON-LACTOSA</item>
-        <item>/LACTEOS/POLVO/DESCREMADA/SIN-LACTOSA</item>
-        <item>/LACTEOS/POLVO/SEMIDESCREMADA/CON-LACTOSA</item>
-        <item>/LACTEOS/POLVO/SEMIDESCREMADA/SIN-LACTOSA</item>
+        <item>/LACTEOS/POLVO/DESCREMADA/CONLACTOSA</item>
+        <item>/LACTEOS/POLVO/DESCREMADA/SINLACTOSA</item>
+        <item>/LACTEOS/POLVO/SEMIDESCREMADA/CONLACTOSA</item>
+        <item>/LACTEOS/POLVO/SEMIDESCREMADA/SINLACTOSA</item>
 
         <item>/LACTEOS/LIQUIDO/ENTERA</item>
-        <item>/LACTEOS/LIQUIDO/DESCREMADA/CON-LACTOSA</item>
-        <item>/LACTEOS/LIQUIDO/DESCREMADA/SIN-LACTOSA</item>
-        <item>/LACTEOS/LIQUIDO/SEMIDESCREMADA/CON-LACTOSA</item>
-        <item>/LACTEOS/LIQUIDO/SEMIDESCREMADA/SIN-LACTOSA</item>
+        <item>/LACTEOS/LIQUIDO/DESCREMADA/CONLACTOSA</item>
+        <item>/LACTEOS/LIQUIDO/DESCREMADA/SINLACTOSA</item>
+        <item>/LACTEOS/LIQUIDO/SEMIDESCREMADA/CONLACTOSA</item>
+        <item>/LACTEOS/LIQUIDO/SEMIDESCREMADA/SINLACTOSA</item>
 
         <item>/REFRESCO/POLVO</item>
         <item>/REFRESCO/LIQUIDO</item>
@@ -170,7 +174,7 @@
         <item>/CONDIMENTO/NATURAL</item>
 
         <item>/ENDULZANTE/CALORICO</item>
-        <item>/ENDULZANTE/NO-CALORICO</item>
+        <item>/ENDULZANTE/NOCALORICO</item>
 
         <item>/FRUTOS-SECOS</item>
 
@@ -280,7 +284,7 @@
 
     <string-array name="tag_endulzante">
         <item>CALORICO</item>
-        <item>NO-CALORICO</item>
+        <item>NOCALORICO</item>
     </string-array>
 
     <string-array name="granos">
@@ -388,8 +392,8 @@
     </string-array>
 
     <string-array name="tag_lacteos_sub1">
-        <item>CON-LACTOSA</item>
-        <item>SIN-LACTOSA</item>
+        <item>CONLACTOSA</item>
+        <item>SINLACTOSA</item>
     </string-array>
 
     <string-array name="gramaje">

@@ -742,6 +742,10 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                             Toast.makeText(agregar.this, getResources().getString(R.string.save_item_ok),Toast.LENGTH_SHORT).show();
                         }
                     });
+
+                    finish();
+                }else{
+                    Toast.makeText(agregar.this, getResources().getString(R.string.save_item_no_ok),Toast.LENGTH_SHORT).show();
                 }
             }
         });

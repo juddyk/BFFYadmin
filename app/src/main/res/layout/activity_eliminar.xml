@@ -55,6 +55,7 @@
                 android:textColorHint="@color/verde_oscuro"
                 android:textColor="@color/azul_oscuro"
                 android:visibility="gone"
+                android:layout_weight="2"
                 />
 
             <ImageButton
@@ -69,6 +70,14 @@
 
 
         </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_espera"
+            style="@style/table_textBox1"
+            android:text="@string/item_wait"
+            android:visibility="gone"
+            />
 
         <ProgressBar
             android:id="@+id/pb_espera_del"

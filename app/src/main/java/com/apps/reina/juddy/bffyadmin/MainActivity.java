@@ -75,6 +75,7 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
         btnVer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                count=0;
                 startActivity(new Intent(MainActivity.this, ver.class));
             }
         });
@@ -82,6 +83,7 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
         btnAgregar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                count=0;
                 startActivity(new Intent(MainActivity.this, agregar.class));
             }
         });
@@ -89,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
         btnModificar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                count=0;
                 startActivity(new Intent(MainActivity.this, modificar.class));
             }
         });
@@ -96,6 +99,7 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
         btnEliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                count=0;
                 startActivity(new Intent(MainActivity.this, eliminar.class));
              }
         });
@@ -103,6 +107,7 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
         btnPerfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                count=0;
                 DialogFragment dialog = new perfilUsuario();
 
                 Bundle bundle = new Bundle();
@@ -118,12 +123,12 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
         btnSalir.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                count=0;
                 AuthUI.getInstance().signOut(MainActivity.this);
                 Toast.makeText(MainActivity.this, getResources().getString(R.string.sign_out),Toast.LENGTH_SHORT).show();
 
             }
         });
-
 
         //AUTENTICACION
         mAuth_StateListener=new FirebaseAuth.AuthStateListener() {

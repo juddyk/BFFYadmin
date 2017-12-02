@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -54,7 +53,7 @@ public class eliminar extends AppCompatActivity {
     TextView tv_nombre,tv_ingredientes;
     ImageView iv_foto_pro,iv_foto_nut;
     ImageButton ib_check;
-    ProgressBar pb_espera;
+    TextView tv_espera;
 
     //DATABASE
     private FirebaseDatabase mDataBase;
@@ -71,7 +70,6 @@ public class eliminar extends AppCompatActivity {
     String keyItem="",refItem="";
 
     int selCat1=0,selCat2=0;
-    Integer count=0;
     List<String> arrayCat1,arrayCat2,referencias;
 
     @Override
@@ -99,7 +97,7 @@ public class eliminar extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 et_nombre.setVisibility(View.GONE);
                 et_nombre.setText("");
-                rl_fragmet.setVisibility(View.GONE);
+                ib_check.setVisibility(View.GONE);
                 btn_eliminar.setVisibility(View.GONE);
 
                 //Establece la seleccion por defecto en todos los spinner
@@ -126,8 +124,8 @@ public class eliminar extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 et_nombre.setVisibility(View.GONE);
                 et_nombre.setText("");
-                rl_fragmet.setVisibility(View.GONE);
                 btn_eliminar.setVisibility(View.GONE);
+                ib_check.setVisibility(View.GONE);
 
                 if(position!=0){//Garantiza que no se escoja la opcion valida
                     selCat2 = position;
@@ -146,9 +144,11 @@ public class eliminar extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                pb_espera.setVisibility(View.GONE);
+                tv_espera.setVisibility(View.GONE);
                 rl_fragmet.setVisibility(View.GONE);
                 limpiarItem();
+                btn_eliminar.setVisibility(View.GONE);
+
             }
 
             @Override
@@ -161,6 +161,22 @@ public class eliminar extends AppCompatActivity {
         btn_eliminar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                String ref=refItem.substring(refItem.indexOf("/"+TAG_ALIMENTOS));
+                mDataBase_Reference=mDataBase.getReference().child(ref);
+
+                mDataBase_Reference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot snapshot) {
+                        snapshot.getRef().removeValue();
+                        Toast.makeText(eliminar.this, getResources().getString(R.string.delete_item_ok),Toast.LENGTH_SHORT).show();
+                    }
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        Log.w("DB_DELETE", "loadPost:onCancelled", databaseError.toException());
+                    }
+                });
+
+
                 finish();
             }
         });
@@ -182,8 +198,8 @@ public class eliminar extends AppCompatActivity {
                 referencias=Arrays.asList(getResources().getStringArray(R.array.child_mixtos_alimentos));
             }
 
-            pb_espera.setVisibility(View.VISIBLE);
-            pb_espera.setProgress(0);
+            tv_espera.setVisibility(View.VISIBLE);
+
             new eliminar.loadItem_task().execute(5);
             }
         });
@@ -233,18 +249,14 @@ public class eliminar extends AppCompatActivity {
         iv_foto_nut=findViewById(R.id.iv_image_item_nut);
 
         ib_check=findViewById(R.id.check_nombre_del);
+        tv_espera=findViewById(R.id.tv_espera);
 
-        pb_espera=findViewById(R.id.pb_espera_del);
-        pb_espera.setMax(10);
     }
 
     class loadItem_task extends AsyncTask<Integer, Integer, String> {
         @Override
         protected String doInBackground(Integer... params) {
             for(int i=0;i<referencias.size();i++){
-                count+=35;
-                count=count>=100?0:count;//si llega a 100, volver a empezar
-                publishProgress(count);
 
                 mDataBase_Reference.child(referencias.get(i)).orderByChild(TAG_PRODUCTOS_nombre).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -258,8 +270,6 @@ public class eliminar extends AppCompatActivity {
                                     keyItem=postSnapshot.getKey();
                                     refItem=postSnapshot.getRef().toString();
                                     mostrarItem();
-                                    Toast.makeText(eliminar.this, refItem,Toast.LENGTH_LONG).show();
-                                    pb_espera.setVisibility(View.GONE);
                                     break;
                                 }
                             }
@@ -290,13 +300,13 @@ public class eliminar extends AppCompatActivity {
         }
         @Override
         protected void onProgressUpdate(Integer... values) {
-            pb_espera.setProgress(values[0]);
+
         }
     }
 
     void mostrarItem(){
-        Toast.makeText(eliminar.this, keyItem,Toast.LENGTH_SHORT).show();
-        pb_espera.setVisibility(View.GONE);
+        Toast.makeText(eliminar.this, getResources().getString(R.string.item_found),Toast.LENGTH_SHORT).show();
+        tv_espera.setVisibility(View.GONE);
         tgShw=itemShw.getInformacion();
         images=itemShw.getUrlImage();
 
@@ -324,6 +334,7 @@ public class eliminar extends AppCompatActivity {
         }
 
         rl_fragmet.setVisibility(View.VISIBLE);
+        btn_eliminar.setVisibility(View.VISIBLE);
     }
 
     void limpiarItem(){
@@ -333,9 +344,7 @@ public class eliminar extends AppCompatActivity {
         tv_calorias.setText("");
         tv_azucar.setText("");
         tv_sodio.setText("");
-
     }
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

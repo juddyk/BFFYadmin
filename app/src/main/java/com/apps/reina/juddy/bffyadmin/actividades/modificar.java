@@ -55,12 +55,13 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     ImageView iv_foto_pro,iv_foto_nut;
 
     int selCat1=0,selCat2=0;
-    List<String> arrayCat1,arrayCat2;
+    List<String> arrayCat1,arrayCat2,referencias;
 
     item itemAdd;
     tabla_general tgAdd;
     image_item images;
     List<ingrediente> lista_ingredientes;
+
 
     //ACTIVITY RESULT
     public static final int RC_PHOTO_PRO = 1;
@@ -144,6 +145,7 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
 
             @Override
             public void afterTextChanged(Editable s) {
+                itemAdd.setNombre(s.toString());
                 rl_fragment.setVisibility(View.VISIBLE);
                 btn_guardar.setVisibility(View.VISIBLE);
 
@@ -156,7 +158,6 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
                 if(selCat1!=0 && selCat2!=0){
                     guardarItem();
                     guardarTablaGeneral();
-                    DatabaseReference mRef;
 
                     lista_ingredientes.add(new ingrediente("none"));
                     lista_ingredientes.add(new ingrediente("none"));
@@ -168,6 +169,9 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
 
 
 
+                    finish();
+                }else{
+                    Toast.makeText(modificar.this, getResources().getString(R.string.save_item_no_ok),Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -231,6 +235,7 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         lista_ingredientes=new ArrayList<>();
         images=new image_item();
 
+        referencias=new ArrayList<>();
         arrayCat1= Arrays.asList(getResources().getStringArray(R.array.categoria1));
         arrayCat2=Arrays.asList(getResources().getStringArray(R.array.categoria2));
 
