@@ -49,7 +49,6 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
     private FirebaseUser mAuth_user;
 
     private static final String TAG_USUARIOS="ADMINISTRADORES";
-    private static final String TAG_USUARIOS_email="correo";
 
     public static final int RC_AUTH = 1;
     private usuario mUser;

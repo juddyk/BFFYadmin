@@ -24,6 +24,7 @@ public class item {
     private String sabor;
     private String apto_para;
     private image_item urlImage;
+    private String emailUsr;
 
 
     public item() {
@@ -41,6 +42,7 @@ public class item {
         this.apto_para="none";
         this.urlImage=new image_item();
         this.id=0;
+        this.emailUsr="";
     }
 
     public long getId() {
@@ -153,5 +155,13 @@ public class item {
 
     public void setUrlImage(image_item urlImage) {
         this.urlImage = urlImage;
+    }
+
+    public String getEmailUsr() {
+        return emailUsr;
+    }
+
+    public void setEmailUsr(String emailUsr) {
+        this.emailUsr = emailUsr;
     }
 }
