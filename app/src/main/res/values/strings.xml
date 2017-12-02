@@ -18,6 +18,8 @@
     <string name="photo_no_ok">Foto no seleccionada </string>
     <string name="photo_error">No se pudo mostrar la imagen </string>
     <string name="save_item_ok">PRODUCTO AGREGADO! </string>
+    <string name="item_no_found">PRODUCTO NO ENCONTRADO! </string>
+    <string name="item_found">PRODUCTO ENCONTRADO! </string>
 
 
     <string name="main_msg">¿Que deseas hacer?</string>
@@ -78,10 +80,20 @@
 
     <string-array name="suplemento">
         <item>ESCOGER</item>
-        <item>NUTRIENTE</item>
-        <item>MULTI-NUTRIENTES</item>
+        <item>nutriente</item>
+        <item>multi-nutriente</item>
     </string-array>
 
+    <string-array name="tag_suplemento">
+        <item>NUTRIENTE</item>
+        <item>MULTI-NUTRIENTE</item>
+    </string-array>
+
+
+    <string-array name="child_suplementos">
+        <item>/NUTRIENTE</item>
+        <item>/MULTI-NUTRIENTES</item>
+    </string-array>
 
     <string-array name="alimento_liquidos">
         <item>ESCOGER</item>
@@ -94,11 +106,35 @@
 
     <string-array name="tag_alimento_liquidos">
         <item>GASEOSAS</item>
-        <item>GASEOSAS</item>
         <item>JUGOS</item>
         <item>LACTEOS</item>
         <item>REFRESCO</item>
         <item>OTRO</item>
+    </string-array>
+
+    <string-array name="child_liquidos_alimentos">
+        <item>/GASEOSAS</item>
+
+        <item>/JUGOS/LISTO</item>
+        <item>/JUGOS/POLVO</item>
+        <item>/JUGOS/PULPA</item>
+
+        <item>/LACTEOS/POLVO/ENTERA</item>
+        <item>/LACTEOS/POLVO/DESCREMADA/CON-LACTOSA</item>
+        <item>/LACTEOS/POLVO/DESCREMADA/SIN-LACTOSA</item>
+        <item>/LACTEOS/POLVO/SEMIDESCREMADA/CON-LACTOSA</item>
+        <item>/LACTEOS/POLVO/SEMIDESCREMADA/SIN-LACTOSA</item>
+
+        <item>/LACTEOS/LIQUIDO/ENTERA</item>
+        <item>/LACTEOS/LIQUIDO/DESCREMADA/CON-LACTOSA</item>
+        <item>/LACTEOS/LIQUIDO/DESCREMADA/SIN-LACTOSA</item>
+        <item>/LACTEOS/LIQUIDO/SEMIDESCREMADA/CON-LACTOSA</item>
+        <item>/LACTEOS/LIQUIDO/SEMIDESCREMADA/SIN-LACTOSA</item>
+
+        <item>/REFRESCO/POLVO</item>
+        <item>/REFRESCO/LIQUIDO</item>
+
+        <item>/OTRO</item>
     </string-array>
 
 
@@ -106,46 +142,100 @@
         <item>ESCOGER</item>
         <item>condimento/especie</item>
         <item>endulzante</item>
-        <item>fruto seco</item>
+        <item>frutos secos</item>
         <item>grano</item>
         <item>panaderia</item>
         <item>reposteria</item>
         <item>sal</item>
         <item>semilla</item>
         <item>snack</item>
+        <item>otro</item>
     </string-array>
 
     <string-array name="tag_alimento_secos">
         <item>CONDIMENTO</item>
         <item>ENDULZANTE</item>
-        <item>FRUTOSECOS</item>
+        <item>FRUTOS-SECOS</item>
         <item>GRANOS</item>
         <item>PANADERIA</item>
         <item>REPOSTERIA</item>
         <item>SAL</item>
         <item>SEMILLA</item>
         <item>SNACK</item>
+        <item>OTRO</item>
+    </string-array>
+
+    <string-array name="child_secos_alimentos">
+        <item>/CONDIMENTO/ARTIFICIAL</item>
+        <item>/CONDIMENTO/NATURAL</item>
+
+        <item>/ENDULZANTE/CALORICO</item>
+        <item>/ENDULZANTE/NO-CALORICO</item>
+
+        <item>/FRUTOS-SECOS</item>
+
+        <item>/GRANOS/ENTERO</item>
+        <item>/GRANOS/PARVOLIZADO</item>
+        <item>/GRANOS/REFINADO</item>
+
+        <item>/PANADERIA</item>
+
+        <item>/REPOSTERIA</item>
+
+        <item>/SAL</item>
+
+        <item>/SEMILLA</item>
+
+        <item>/SNACK/FRITO</item>
+        <item>/SNACK/HORNEADO</item>
+
+        <item>/OTRO</item>
     </string-array>
 
     <string-array name="alimento_mixtos">
         <item>ESCOGER</item>
         <item>carne</item>
         <item>embutido</item>
-        <item>fruto</item>
+        <item>frutoS</item>
         <item>queso</item>
         <item>salsa</item>
-        <item>vegetable</item>
+        <item>vegetableS</item>
         <item>otro</item>
     </string-array>
 
     <string-array name="tag_alimento_mixtos">
-        <item>CARNESE</item>
+        <item>CARNES</item>
         <item>EMBUTIDOS</item>
         <item>FRUTOS</item>
         <item>QUESOS</item>
         <item>SALSAS</item>
         <item>VEGETABLES</item>
         <item>OTRO</item>
+    </string-array>
+
+    <string-array name="child_mixtos_alimentos">
+        <item>/CARNES/CONSERVA</item>
+        <item>/CARNES/FRESCA</item>
+        <item>/CARNES/MADURADA</item>
+
+        <item>/EMBUTIDOS/CONSERVA</item>
+        <item>/EMBUTIDOS/MADURADO</item>
+        <item>/EMBUTIDOS/OTRO</item>
+
+        <item>/FRUTOS/CONSERVA</item>
+        <item>/FRUTOS/FRESCO</item>
+
+        <item>/QUESOS/FRESCO</item>
+        <item>/QUESOS/MADURADO</item>
+
+        <item>/SALSAS</item>
+
+        <item>/VEGETABLES/CONSERVA</item>
+        <item>/VEGETABLES/FRESCO</item>
+
+        <item>/OTRO/CONSERVA</item>
+        <item>/OTRO/LISTO</item>
+        <item>/OTRO/FRESCO</item>
     </string-array>
 
     <string-array name="liquidos_sub1">
@@ -190,7 +280,7 @@
 
     <string-array name="tag_endulzante">
         <item>CALORICO</item>
-        <item>NOCALORICO</item>
+        <item>NO-CALORICO</item>
     </string-array>
 
     <string-array name="granos">
@@ -298,8 +388,8 @@
     </string-array>
 
     <string-array name="tag_lacteos_sub1">
-        <item>CONLACTOSA</item>
-        <item>SINLACTOSA</item>
+        <item>CON-LACTOSA</item>
+        <item>SIN-LACTOSA</item>
     </string-array>
 
     <string-array name="gramaje">
@@ -352,5 +442,8 @@
         <item>Reciclable</item>
         <item>No Reciclable</item>
     </string-array>
+
+
+
 
 </resources>

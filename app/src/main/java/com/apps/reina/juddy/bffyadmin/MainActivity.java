@@ -49,9 +49,12 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
     private FirebaseUser mAuth_user;
 
     private static final String TAG_USUARIOS="ADMINISTRADORES";
+    private static final String TAG_USUARIOS_email="correo";
+
     public static final int RC_AUTH = 1;
     private usuario mUser;
     private String idUser;
+    int count=0;
 
     //OBJETOS INTERFAZ
     Button btnAgregar, btnModificar, btnEliminar, btnVer, btnSalir, btnPerfil;
@@ -128,6 +131,7 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 mAuth_user=firebaseAuth.getCurrentUser();
                 if(mAuth_user != null){
+                    count++;
                     validarExistenciaUsuario();
                     //Usuario logueado
                     onSignedInInitialize(mAuth_user.getDisplayName(), mAuth_user.getEmail());
@@ -152,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
                 }
             }
         };
+
         
     }
 
@@ -161,28 +166,32 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 boolean flag=false;
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    usuario post = postSnapshot.getValue(usuario.class);
-                    if(post!=null){
-                        if(post.getCorreo().contentEquals(mAuth_user.getEmail())){
-                            flag=true;
+                if(count==1){
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        usuario post = postSnapshot.getValue(usuario.class);
+                        if(post!=null){
+                            if(post.getCorreo().contentEquals(mAuth_user.getEmail())){
+                                flag=true;
+                                mUser=post;
+                                idUser=postSnapshot.getKey();
+                                break;
+                            }
+                        }else{
                             mUser=post;
                             idUser=postSnapshot.getKey();
-                            break;
                         }
                     }
+                    if(!flag){
+                        //REGISTRA EL USUARIO
+                        mUser=new usuario(0,mAuth_user.getDisplayName(),mAuth_user.getEmail(),""/*,mAuth_user.getUid()*/);
+                        DatabaseReference mref=mDataBase.getReference().child(TAG_USUARIOS).push();
+                        mref.setValue(mUser);
+                        idUser=mref.getKey();
+
+                    }
                 }
-
-                if(!flag){
-                    //REGISTRA EL USUARIO
-                    mUser=new usuario(0,mAuth_user.getDisplayName(),mAuth_user.getEmail(),"");
-                    DatabaseReference mref=mDataBase.getReference().child(TAG_USUARIOS).push();
-                    mref.setValue(mUser);
-                    idUser=mref.getKey();
-
-                }
-
             }
+
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 String TAG="DB_VALIDAR";
@@ -191,6 +200,8 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
             }
         };
         mDataBase_Reference.addListenerForSingleValueEvent(mDataBase_listener);
+
+
     }
 
     //Metodo para actualizar el usuario registrado
@@ -235,6 +246,7 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
         attachDataBaseReadListener();
 
     }
+
     private void attachDataBaseReadListener(){
 
     }

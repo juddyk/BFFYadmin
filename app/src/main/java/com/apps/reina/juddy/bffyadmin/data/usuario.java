@@ -11,19 +11,22 @@ public class usuario {
     private String nombre;
     private String correo;
     private String celuar;
+    //private String uid;
 
     public usuario() {
         this.id =0;
         this.nombre = "";
         this.correo = "";
         this.celuar = "";
+        //this.uid = "";
     }
 
-    public usuario(long id, String nombre, String correo, String celuar) {
+    public usuario(long id, String nombre, String correo, String celuar/*, String uid*/) {
         this.id = id;
         this.nombre = nombre;
         this.correo = correo;
         this.celuar = celuar;
+        //this.uid = uid;
     }
 
     public long getId() {
@@ -57,4 +60,12 @@ public class usuario {
     public void setCeluar(String celuar) {
         this.celuar = celuar;
     }
+/*
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }*/
 }

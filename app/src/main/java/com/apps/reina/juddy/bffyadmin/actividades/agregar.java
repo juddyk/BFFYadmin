@@ -26,9 +26,7 @@ import com.apps.reina.juddy.bffyadmin.data.image_item;
 import com.apps.reina.juddy.bffyadmin.data.ingrediente;
 import com.apps.reina.juddy.bffyadmin.data.item;
 import com.apps.reina.juddy.bffyadmin.data.tabla_general;
-import com.apps.reina.juddy.bffyadmin.dataAdapter.imageAdapter;
 import com.apps.reina.juddy.bffyadmin.dialog.addIngrediente;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -276,7 +274,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                 }else{
                     selSubCat1=position;
                     if(selCat2==3){//SUPLEMENTOS
-                        arraySubCat1=Arrays.asList(getResources().getStringArray(R.array.suplemento));
+                        arraySubCat1=Arrays.asList(getResources().getStringArray(R.array.tag_suplemento));
                         et_nombre.setVisibility(View.VISIBLE);
                         spn_sub_categoria2.setVisibility(View.GONE);
                         spn_sub_categoria3.setVisibility(View.GONE);
@@ -641,6 +639,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
             public void afterTextChanged(Editable s) {
                 btn_guardar.setVisibility(View.VISIBLE);
                 rl_fragment.setVisibility(View.VISIBLE);
+                itemAdd.setNombre(s.toString());
 
             }
         });
@@ -905,6 +904,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
 
         if(resultCode == RESULT_OK){
             if(requestCode == RC_PHOTO_PRO){
+
                 Toast.makeText(agregar.this, getResources().getString(R.string.photo_ok),Toast.LENGTH_SHORT).show();
                 Uri selected=data.getData();
                 StorageReference ref=mStorage_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2)).child("PRO_"+itemAdd.getNombre());

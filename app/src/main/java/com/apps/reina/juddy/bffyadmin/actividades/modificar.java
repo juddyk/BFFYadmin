@@ -1,6 +1,8 @@
 package com.apps.reina.juddy.bffyadmin.actividades;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
@@ -19,10 +21,22 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.apps.reina.juddy.bffyadmin.R;
+import com.apps.reina.juddy.bffyadmin.data.image_item;
 import com.apps.reina.juddy.bffyadmin.data.ingrediente;
+import com.apps.reina.juddy.bffyadmin.data.item;
+import com.apps.reina.juddy.bffyadmin.data.tabla_general;
 import com.apps.reina.juddy.bffyadmin.dialog.addIngrediente;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -40,12 +54,25 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     LinearLayout rl_fragment;
     ImageView iv_foto_pro,iv_foto_nut;
 
-    List<ingrediente> lista_ingredientes;
     int selCat1=0,selCat2=0;
+    List<String> arrayCat1,arrayCat2;
+
+    item itemAdd;
+    tabla_general tgAdd;
+    image_item images;
+    List<ingrediente> lista_ingredientes;
 
     //ACTIVITY RESULT
     public static final int RC_PHOTO_PRO = 1;
     public static final int RC_PHOTO_NUT = 2;
+
+    //DATABASE
+    private FirebaseDatabase mDataBase;
+    private DatabaseReference mDataBase_Reference;
+    private static final String TAG_ALIMENTOS="PRODUCTOS";
+    //STORAGE
+    private FirebaseStorage mStorage;
+    private StorageReference mStorage_Reference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +86,8 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
             getSupportActionBar().setDisplayShowHomeEnabled(true);
         }
 
+        instanciarFIREBASE();
+        instanciarOBJETOS();
         instanciarOBJETOS_interfaz();
 
         lista_ingredientes=new ArrayList<>();
@@ -124,7 +153,22 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                if(selCat1!=0 && selCat2!=0){
+                    guardarItem();
+                    guardarTablaGeneral();
+                    DatabaseReference mRef;
+
+                    lista_ingredientes.add(new ingrediente("none"));
+                    lista_ingredientes.add(new ingrediente("none"));
+                    lista_ingredientes.add(new ingrediente("none"));
+
+                    itemAdd.setIngredientes(lista_ingredientes);
+                    itemAdd.setInformacion(tgAdd);
+                    itemAdd.setUrlImage(images);
+
+
+
+                }
             }
         });
 
@@ -181,6 +225,26 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         btn_guardar.setVisibility(View.GONE);
     }
 
+    void instanciarOBJETOS(){
+        itemAdd=new item();
+        tgAdd=new tabla_general();
+        lista_ingredientes=new ArrayList<>();
+        images=new image_item();
+
+        arrayCat1= Arrays.asList(getResources().getStringArray(R.array.categoria1));
+        arrayCat2=Arrays.asList(getResources().getStringArray(R.array.categoria2));
+
+    }
+
+    void instanciarFIREBASE(){
+        //DataBase
+        mDataBase= FirebaseDatabase.getInstance();
+        mDataBase_Reference=mDataBase.getReference().child(TAG_ALIMENTOS);
+        //Storage
+        mStorage= FirebaseStorage.getInstance();
+        mStorage_Reference=mStorage.getReference().child(TAG_ALIMENTOS);
+    }
+
     void instanciarOBJETOS_interfaz(){
         spn_categoria1=findViewById(R.id.spnEDT_catgeoria_1);
         spn_categoria2=findViewById(R.id.spnEDT_catgeoria_2);
@@ -208,6 +272,43 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
 
         iv_foto_pro=findViewById(R.id.iv_image_item_pro);
         iv_foto_nut=findViewById(R.id.iv_image_item_nut);
+    }
+
+    void guardarTablaGeneral(){
+        if(!et_calorias.getText().toString().isEmpty()){
+            tgAdd.setCalorias(Long.parseLong(et_calorias.getText().toString()));
+        }
+
+        if(!et_azucar.getText().toString().isEmpty()){
+            tgAdd.setAzucar(Double.parseDouble(et_azucar.getText().toString()));
+        }
+
+        if(!et_sodio.getText().toString().isEmpty()){
+            tgAdd.setSodio(Double.parseDouble(et_sodio.getText().toString()));
+        }
+
+
+    }
+
+    void guardarItem(){
+        if(!et_nombre.getText().toString().isEmpty()){
+            itemAdd.setNombre(et_nombre.getText().toString());
+        }
+
+        if(!et_fabricante.getText().toString().isEmpty()){
+            itemAdd.setFabricante(et_fabricante.getText().toString());
+        }
+
+        if(!et_gramaje.getText().toString().isEmpty()){
+            itemAdd.setGramaje(Long.parseLong(et_gramaje.getText().toString()));
+        }
+
+        if(!spn_unidad.getSelectedItem().toString().isEmpty()){
+            itemAdd.setUnidad_gramaje(spn_unidad.getSelectedItem().toString());
+        }
+
+
+
     }
 
     @Override
@@ -254,12 +355,51 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
             if(requestCode == RC_PHOTO_PRO){
                 Toast.makeText(modificar.this, getResources().getString(R.string.photo_ok),Toast.LENGTH_SHORT).show();
                 Uri selected=data.getData();
-                iv_foto_pro.setImageURI(selected);
+
+                StorageReference ref=mStorage_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2)).child("PRO_"+itemAdd.getNombre());
+
+                ref.putFile(selected).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Uri download=taskSnapshot.getDownloadUrl();
+                        if(download!= null){
+                            images.setNutricion(download.toString());
+                        }
+                    }
+                });
+
+                try {
+                    final InputStream imageStream = getContentResolver().openInputStream(selected);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    iv_foto_pro.setImageBitmap(selectedImage);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(modificar.this, getResources().getString(R.string.photo_error), Toast.LENGTH_LONG).show();
+                }
 
             }else if(requestCode == RC_PHOTO_NUT){
                 Toast.makeText(modificar.this, getResources().getString(R.string.photo_ok),Toast.LENGTH_SHORT).show();
                 Uri selected=data.getData();
-                iv_foto_nut.setImageURI(selected);
+                StorageReference ref=mStorage_Reference.child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2)).child("NUT_"+itemAdd.getNombre());
+
+                ref.putFile(selected).addOnSuccessListener(this, new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                    @Override
+                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                        Uri download=taskSnapshot.getDownloadUrl();
+                        if(download!= null){
+                            images.setNutricion(download.toString());
+                        }
+                    }
+                });
+
+                try {
+                    final InputStream imageStream = getContentResolver().openInputStream(selected);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    iv_foto_nut.setImageBitmap(selectedImage);
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                    Toast.makeText(modificar.this, getResources().getString(R.string.photo_error), Toast.LENGTH_LONG).show();
+                }
             }
 
         }else if(resultCode == RESULT_CANCELED){
