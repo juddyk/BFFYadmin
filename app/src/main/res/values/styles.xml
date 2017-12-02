@@ -103,6 +103,12 @@
         <item name="android:gravity">center</item>
     </style>
 
+    <style name="btn_textBox1">
+        <item name="android:textColor">@color/azul_oscuro</item>
+        <item name="android:textSize">10dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:gravity">center</item>
+    </style>
 
     <!--                                                SPN               -->
     <style name="spn_values1">

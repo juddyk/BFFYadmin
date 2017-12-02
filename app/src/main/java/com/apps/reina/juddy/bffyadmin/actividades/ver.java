@@ -50,7 +50,7 @@ public class ver extends AppCompatActivity {
     TextView tv_nombre,tv_ingredientes;
     ImageView iv_foto_pro,iv_foto_nut;
     ImageButton ib_check;
-    ProgressBar pb_espera;
+    TextView pb_espera;
 
 
     //DATABASE
@@ -68,7 +68,6 @@ public class ver extends AppCompatActivity {
     String keyItem="";
 
     int selCat1=0,selCat2=0;
-    Integer count=0;
     List<String> arrayCat1,arrayCat2,referencias;
 
 
@@ -172,7 +171,6 @@ public class ver extends AppCompatActivity {
                 }
 
                 pb_espera.setVisibility(View.VISIBLE);
-                pb_espera.setProgress(0);
                 new loadItem_task().execute(5);
 
 
@@ -226,8 +224,7 @@ public class ver extends AppCompatActivity {
 
         ib_check=findViewById(R.id.check_nombre);
 
-        pb_espera=findViewById(R.id.pb_espera);
-        pb_espera.setMax(10);
+        pb_espera=findViewById(R.id.tv_espera_ver);
     }
 
 
@@ -235,9 +232,6 @@ public class ver extends AppCompatActivity {
         @Override
         protected String doInBackground(Integer... params) {
             for(int i=0;i<referencias.size();i++){
-                count+=35;
-                count=count>=100?0:count;//si llega a 100, volver a empezar
-                publishProgress(count);
 
                 mDataBase_Reference.child(referencias.get(i)).orderByChild(TAG_PRODUCTOS_nombre).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
@@ -250,8 +244,7 @@ public class ver extends AppCompatActivity {
                                     itemShw=post;
                                     keyItem=postSnapshot.getKey();
                                     mostrarItem();
-                                    Toast.makeText(ver.this, getResources().getString(R.string.item_found),Toast.LENGTH_LONG).show();
-                                    pb_espera.setVisibility(View.GONE);
+
                                     break;
                                 }
                             }
@@ -282,12 +275,13 @@ public class ver extends AppCompatActivity {
         }
         @Override
         protected void onProgressUpdate(Integer... values) {
-            pb_espera.setProgress(values[0]);
+
         }
     }
 
     void mostrarItem(){
-        Toast.makeText(ver.this, keyItem,Toast.LENGTH_SHORT).show();
+        Toast.makeText(ver.this, getResources().getString(R.string.item_found),Toast.LENGTH_LONG).show();
+
         pb_espera.setVisibility(View.GONE);
         tgShw=itemShw.getInformacion();
         images=itemShw.getUrlImage();

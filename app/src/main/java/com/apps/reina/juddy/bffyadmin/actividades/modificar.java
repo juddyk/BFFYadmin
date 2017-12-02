@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -26,9 +28,13 @@ import com.apps.reina.juddy.bffyadmin.data.ingrediente;
 import com.apps.reina.juddy.bffyadmin.data.item;
 import com.apps.reina.juddy.bffyadmin.data.tabla_general;
 import com.apps.reina.juddy.bffyadmin.dialog.addIngrediente;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -37,7 +43,9 @@ import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by JUDDY KATHERIN REINA PARDO on 20/11/17.
@@ -48,20 +56,14 @@ import java.util.List;
 public class modificar extends AppCompatActivity implements addIngrediente.ingredienteListener{
     Spinner spn_categoria1,spn_categoria2, spn_producto,spn_empaque,spn_unidad;
     Spinner spn_conservantes,spn_sabor,spn_apto_para;
-    EditText et_nombre,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
-    TextView tv_ingredientes;
+    EditText et_nombre,et_nombre_edt,et_calorias,et_azucar,et_sodio,et_fabricante,et_gramaje,et_lineAtencion;
+    TextView tv_ingredientes,tv_espera;
     Button btn_guardar,btn_UploadImg_pro,btn_UploadImg_nut;
     LinearLayout rl_fragment;
-    ImageView iv_foto_pro,iv_foto_nut;
+    ImageView iv_foto_pro,iv_foto_nut,ib_check;
 
     int selCat1=0,selCat2=0;
-    List<String> arrayCat1,arrayCat2,referencias;
-
-    item itemAdd;
-    tabla_general tgAdd;
-    image_item images;
-    List<ingrediente> lista_ingredientes;
-
+    List<String> arrayCat1,arrayCat2,referencias,unidades;
 
     //ACTIVITY RESULT
     public static final int RC_PHOTO_PRO = 1;
@@ -71,9 +73,18 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     private FirebaseDatabase mDataBase;
     private DatabaseReference mDataBase_Reference;
     private static final String TAG_ALIMENTOS="PRODUCTOS";
+    private static final String TAG_PRODUCTOS_nombre="nombre";
     //STORAGE
     private FirebaseStorage mStorage;
     private StorageReference mStorage_Reference;
+
+    item itemAdd;
+    tabla_general tgAdd;
+    image_item images;
+    List<ingrediente> lista_ingredientes;
+    String nameProducto="";
+    String keyItem="",refItem="";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,15 +102,81 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         instanciarOBJETOS();
         instanciarOBJETOS_interfaz();
 
-        lista_ingredientes=new ArrayList<>();
+        listener_spns();
+        listener_btns();
 
+        et_nombre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                tv_espera.setVisibility(View.GONE);
+                rl_fragment.setVisibility(View.GONE);
+                limpiarItem();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                ib_check.setVisibility(View.VISIBLE);
+            }
+        });
+
+        ib_check.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                nameProducto=et_nombre.getText().toString();
+
+                mDataBase_Reference=mDataBase.getReference().child(TAG_ALIMENTOS).child(arrayCat1.get(selCat1)).child(arrayCat2.get(selCat2));
+
+                if(selCat2==3){//SUPLEMENTOS
+                    referencias=Arrays.asList(getResources().getStringArray(R.array.child_suplementos));
+                }else if(selCat1==1 && selCat2==1){//LIQUIDOS-ALIMENTOS
+                    referencias=Arrays.asList(getResources().getStringArray(R.array.child_liquidos_alimentos));
+                }else if(selCat1==2 && selCat2==1){//SECOS-ALIMENTOS
+                    referencias=Arrays.asList(getResources().getStringArray(R.array.child_secos_alimentos));
+                }else if(selCat1==3 && selCat2==1){//MIXTOS-ALIMENTOS
+                    referencias=Arrays.asList(getResources().getStringArray(R.array.child_mixtos_alimentos));
+                }
+
+                tv_espera.setVisibility(View.VISIBLE);
+
+                new modificar.loadItem_task().execute(5);
+            }
+        });
+
+
+        tv_ingredientes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<String> ingrs=new ArrayList<>();
+                ingrs.clear();
+                for(int i = 0; i<lista_ingredientes.size(); i++){
+                    ingrs.add(lista_ingredientes.get(i).getNombre());
+                }
+                if(ingrs.isEmpty()){
+                    ingrs.add("none");
+                }
+
+
+                DialogFragment dialog = new addIngrediente();
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("lista",ingrs);
+                dialog.setArguments(bundle);
+
+                dialog.show(getSupportFragmentManager(), getResources().getString(R.string.item_1));
+            }
+        });
+
+    }
+
+    void listener_spns(){
         //SELECCION CATEGORIA 1
         spn_categoria1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 limpiar_interfaz();
-
                 //Establece la seleccion por defecto en todos los spinner
                 spn_categoria2.setSelection(0);
                 //Reinicia la seleccion a 0
@@ -133,25 +210,9 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
+    }
 
-        et_nombre.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                itemAdd.setNombre(s.toString());
-                rl_fragment.setVisibility(View.VISIBLE);
-                btn_guardar.setVisibility(View.VISIBLE);
-
-            }
-        });
-
+    void listener_btns(){
         btn_guardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -167,7 +228,17 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
                     itemAdd.setInformacion(tgAdd);
                     itemAdd.setUrlImage(images);
 
+                    String ref=refItem.substring(refItem.indexOf("/"+TAG_ALIMENTOS),refItem.lastIndexOf("/"));
+                    mDataBase_Reference=mDataBase.getReference().child(ref);
 
+                    Map<String, Object> updates = new HashMap<>();
+                    updates.put("/"+keyItem, itemAdd);
+                    mDataBase_Reference.updateChildren(updates).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(modificar.this, getResources().getString(R.string.save_item_ok),Toast.LENGTH_SHORT).show();
+                        }
+                    });
 
                     finish();
                 }else{
@@ -197,29 +268,6 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
                 startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_selec)), RC_PHOTO_NUT);
             }
         });
-
-        tv_ingredientes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ArrayList<String> ingrs=new ArrayList<>();
-                ingrs.clear();
-                for(int i = 0; i<lista_ingredientes.size(); i++){
-                    ingrs.add(lista_ingredientes.get(i).getNombre());
-                }
-                if(ingrs.isEmpty()){
-                    ingrs.add("none");
-                }
-
-
-                DialogFragment dialog = new addIngrediente();
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("lista",ingrs);
-                dialog.setArguments(bundle);
-
-                dialog.show(getSupportFragmentManager(), getResources().getString(R.string.item_1));
-            }
-        });
-
     }
 
     void limpiar_interfaz(){
@@ -227,6 +275,8 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         et_nombre.setText("");
         rl_fragment.setVisibility(View.GONE);
         btn_guardar.setVisibility(View.GONE);
+        ib_check.setVisibility(View.GONE);
+
     }
 
     void instanciarOBJETOS(){
@@ -236,6 +286,7 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         images=new image_item();
 
         referencias=new ArrayList<>();
+        unidades= Arrays.asList(getResources().getStringArray(R.array.gramaje));
         arrayCat1= Arrays.asList(getResources().getStringArray(R.array.categoria1));
         arrayCat2=Arrays.asList(getResources().getStringArray(R.array.categoria2));
 
@@ -264,6 +315,7 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         et_azucar=findViewById(R.id.et_azucar);
         et_sodio=findViewById(R.id.et_sodio);
 
+        et_nombre_edt=findViewById(R.id.et_item_0);
         tv_ingredientes=findViewById(R.id.tv_item_1);
         et_fabricante=findViewById(R.id.et_item_2);
         et_gramaje=findViewById(R.id.et_item_3);
@@ -275,8 +327,12 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         spn_sabor=findViewById(R.id.spn_item_8);
         spn_apto_para=findViewById(R.id.spn_item_9);
 
+
         iv_foto_pro=findViewById(R.id.iv_image_item_pro);
         iv_foto_nut=findViewById(R.id.iv_image_item_nut);
+
+        ib_check=findViewById(R.id.check_nombre_edt);
+        tv_espera=findViewById(R.id.tv_espera_edt);
     }
 
     void guardarTablaGeneral(){
@@ -296,8 +352,8 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     }
 
     void guardarItem(){
-        if(!et_nombre.getText().toString().isEmpty()){
-            itemAdd.setNombre(et_nombre.getText().toString());
+        if(!et_nombre_edt.getText().toString().isEmpty()){
+            itemAdd.setNombre(et_nombre_edt.getText().toString());
         }
 
         if(!et_fabricante.getText().toString().isEmpty()){
@@ -305,16 +361,115 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         }
 
         if(!et_gramaje.getText().toString().isEmpty()){
-            itemAdd.setGramaje(Long.parseLong(et_gramaje.getText().toString()));
+            itemAdd.setGramaje(Double.parseDouble(et_gramaje.getText().toString()));
         }
 
         if(!spn_unidad.getSelectedItem().toString().isEmpty()){
             itemAdd.setUnidad_gramaje(spn_unidad.getSelectedItem().toString());
         }
+    }
+
+    class loadItem_task extends AsyncTask<Integer, Integer, String> {
+        @Override
+        protected String doInBackground(Integer... params) {
+            for(int i=0;i<referencias.size();i++){
+
+                mDataBase_Reference.child(referencias.get(i)).orderByChild(TAG_PRODUCTOS_nombre).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                            item post = postSnapshot.getValue(item.class);
+                            if(post!=null){
+
+                                if(post.getNombre().contentEquals(nameProducto)){
+                                    itemAdd=post;
+                                    keyItem=postSnapshot.getKey();
+                                    refItem=postSnapshot.getRef().toString();
+                                    mostrarItem();
+
+                                    break;
+                                }
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        String TAG="DB_BUSCAR_PRODUCTO";
+                        Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
+                        Toast.makeText(modificar.this, "Failed to load data.",Toast.LENGTH_SHORT).show();
+                    }
+                });
+
+            }
 
 
+            return "Task Completed.";
+        }
+        @Override
+        protected void onPostExecute(String result) {
+
+        }
+
+        @Override
+        protected void onPreExecute() {
+
+        }
+        @Override
+        protected void onProgressUpdate(Integer... values) {
+
+        }
+    }
+
+    void mostrarItem(){
+        Toast.makeText(modificar.this, getResources().getString(R.string.item_found),Toast.LENGTH_SHORT).show();
+        tv_espera.setVisibility(View.GONE);
+        tgAdd=itemAdd.getInformacion();
+        images=itemAdd.getUrlImage();
+
+        et_fabricante.setText(itemAdd.getFabricante());
+        String gramaje=itemAdd.getUnidad_gramaje();
+        for(int i=0;i<unidades.size();i++){
+            if(gramaje.equals(unidades.get(i))){
+                spn_unidad.setSelection(i);
+                break;
+            }
+        }
+        et_gramaje.setText(String.valueOf(itemAdd.getGramaje()));
+        et_nombre_edt.setText(itemAdd.getNombre());
+
+        et_calorias.setText(String.valueOf(tgAdd.getCalorias()));
+        et_azucar.setText(String.valueOf(tgAdd.getAzucar()));
+        et_sodio.setText(String.valueOf(tgAdd.getSodio()));
+
+        if(images.getProducto().isEmpty()){
+            iv_foto_pro.setImageDrawable(getResources().getDrawable(R.drawable.logo_verde_oscuro));
+        }else{
+            Glide.with(getApplicationContext())
+                    .load(images.getProducto())
+                    .into(iv_foto_pro);
+        }
+        if(images.getNutricion().isEmpty()){
+            iv_foto_nut.setImageDrawable(getResources().getDrawable(R.drawable.logo_verde_oscuro));
+        }else {
+            Glide.with(getApplicationContext())
+                    .load(images.getNutricion())
+                    .into(iv_foto_nut);
+        }
+        rl_fragment.setVisibility(View.VISIBLE);
+        btn_guardar.setVisibility(View.VISIBLE);
+    }
+
+    void limpiarItem(){
+        et_fabricante.setText("");
+        et_gramaje.setText("");
+        spn_unidad.setSelection(0);
+        et_calorias.setText("");
+        et_azucar.setText("");
+        et_sodio.setText("");
 
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -368,7 +523,7 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
                     public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                         Uri download=taskSnapshot.getDownloadUrl();
                         if(download!= null){
-                            images.setNutricion(download.toString());
+                            images.setProducto(download.toString());
                         }
                     }
                 });

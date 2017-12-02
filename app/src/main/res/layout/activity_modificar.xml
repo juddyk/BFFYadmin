@@ -40,12 +40,43 @@
             >
         </Spinner>
 
-        <EditText
-            android:id="@+id/etEDT_nombre"
-            style="@style/spn_values1"
-            android:hint="@string/name_pro"
-            android:textColorHint="@color/verde_oscuro"
-            android:textColor="@color/azul_oscuro"
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginEnd="15dp"
+            android:layout_marginStart="15dp"
+            >
+            <EditText
+                android:id="@+id/etEDT_nombre"
+                style="@style/spn_values1"
+                android:hint="@string/name_pro"
+                android:textColorHint="@color/verde_oscuro"
+                android:textColor="@color/azul_oscuro"
+                android:visibility="gone"
+                android:layout_weight="2"
+                />
+
+            <ImageButton
+                android:id="@+id/check_nombre_edt"
+                android:visibility="gone"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:src="@drawable/ic_check_dark"
+                android:contentDescription="@string/campo_vacio"
+                android:background="@drawable/backgroun_circle"
+                />
+
+
+        </LinearLayout>
+
+
+        <TextView
+            android:id="@+id/tv_espera_edt"
+            style="@style/table_textBox1"
+            android:text="@string/item_wait"
             android:visibility="gone"
             />
 
@@ -66,6 +97,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 layout="@layout/modificar_item" >
+            </include>
+
+            <include
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                layout="@layout/ver_image_item" >
             </include>
 
             <include

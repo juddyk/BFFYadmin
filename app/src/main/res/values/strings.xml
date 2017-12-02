@@ -62,8 +62,8 @@
     <string name="item_9">APTO PARA: </string>
 
     <string name="name_pro">nombre del producto </string>
-    <string name="upload_img_pro">Producto </string>
-    <string name="upload_img_nut">Nutricional </string>
+    <string name="upload_img_pro">Foto Producto </string>
+    <string name="upload_img_nut">Foto Nutricional </string>
 
 
     <!--                                        LISTAS                           -->

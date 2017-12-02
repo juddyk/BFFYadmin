@@ -15,7 +15,7 @@ public class item {
     private String nombre;
     private List<ingrediente> ingredientes;
     private String fabricante;
-    private long gramaje;
+    private double gramaje;
     private String unidad_gramaje;
     private String linea_atencion;
     private String nacional;
@@ -83,11 +83,11 @@ public class item {
         this.fabricante = fabricante;
     }
 
-    public long getGramaje() {
+    public double getGramaje() {
         return gramaje;
     }
 
-    public void setGramaje(long gramaje) {
+    public void setGramaje(double gramaje) {
         this.gramaje = gramaje;
     }
 

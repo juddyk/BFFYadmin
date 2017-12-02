@@ -855,7 +855,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
         }
 
         if(!et_gramaje.getText().toString().isEmpty()){
-            itemAdd.setGramaje(Long.parseLong(et_gramaje.getText().toString()));
+            itemAdd.setGramaje(Double.parseDouble(et_gramaje.getText().toString()));
         }
 
         if(!spn_unidad.getSelectedItem().toString().isEmpty()){
@@ -951,6 +951,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                     final InputStream imageStream = getContentResolver().openInputStream(selected);
                     final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                     iv_foto_nut.setImageBitmap(selectedImage);
+
                 } catch (FileNotFoundException e) {
                     e.printStackTrace();
                     Toast.makeText(agregar.this, getResources().getString(R.string.photo_error), Toast.LENGTH_LONG).show();
