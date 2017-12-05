@@ -28,11 +28,12 @@ public class itemRowAdapter extends ArrayAdapter<itemRow> {
         layoutInflater = LayoutInflater.from(context);
     }
 
+    @NonNull
     @Override
-    public View getView(int position, View convertView, ViewGroup parent)
+    public View getView(int position, View convertView, @NonNull ViewGroup parent)
     {
         // holder pattern
-        Holder holder = null;
+        Holder holder;
         if (convertView == null)
         {
             holder = new Holder();
@@ -41,9 +42,7 @@ public class itemRowAdapter extends ArrayAdapter<itemRow> {
             holder.setTextViewTitle((TextView) convertView.findViewById(R.id.row_title));
             holder.setCheckBox((CheckBox) convertView.findViewById(R.id.row_checked));
             convertView.setTag(holder);
-        }
-        else
-        {
+        }else{
             holder = (Holder) convertView.getTag();
         }
 
@@ -59,22 +58,22 @@ public class itemRowAdapter extends ArrayAdapter<itemRow> {
         TextView textViewTitle;
         CheckBox checkBox;
 
-        public TextView getTextViewTitle()
+        TextView getTextViewTitle()
         {
             return textViewTitle;
         }
 
-        public void setTextViewTitle(TextView textViewTitle)
+        void setTextViewTitle(TextView textViewTitle)
         {
             this.textViewTitle = textViewTitle;
         }
 
-        public CheckBox getCheckBox()
+        CheckBox getCheckBox()
         {
             return checkBox;
         }
 
-        public void setCheckBox(CheckBox checkBox)
+        void setCheckBox(CheckBox checkBox)
         {
             this.checkBox = checkBox;
         }

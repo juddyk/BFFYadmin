@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -13,7 +14,6 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.apps.reina.juddy.bffyadmin.R;
-import com.apps.reina.juddy.bffyadmin.data.ingrediente;
 import com.apps.reina.juddy.bffyadmin.data.itemRow;
 import com.apps.reina.juddy.bffyadmin.dataAdapter.itemRowAdapter;
 
@@ -50,6 +50,7 @@ public class listItems extends DialogFragment {
         }
     }
 
+    @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
@@ -62,7 +63,7 @@ public class listItems extends DialogFragment {
 
         Bundle bndl= getArguments();
         nombres_producto=bndl.getStringArrayList("lista");
-        if(nombres_producto.size()>1){
+        if(nombres_producto!=null){
             for(int i=0;i<nombres_producto.size();i++){
                 itemRow itm=new itemRow();
                 itm.setTitle(nombres_producto.get(i));
