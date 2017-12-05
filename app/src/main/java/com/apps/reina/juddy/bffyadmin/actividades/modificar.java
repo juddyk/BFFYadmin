@@ -62,7 +62,8 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     LinearLayout rl_fragment;
     ImageView iv_foto_pro,iv_foto_nut,ib_check;
 
-    int selCat1=0,selCat2=0;
+    int selCat1=0,selCat2=0,cntChild=0;
+    boolean flagFind=false;
     List<String> arrayCat1,arrayCat2,referencias,unidades;
 
     //ACTIVITY RESULT
@@ -84,6 +85,7 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     List<ingrediente> lista_ingredientes;
     String nameProducto="";
     String keyItem="",refItem="";
+    String emailUser="";
 
 
     @Override
@@ -280,6 +282,8 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
     }
 
     void instanciarOBJETOS(){
+        emailUser=getIntent().getExtras().getString("emailUser","");
+
         itemAdd=new item();
         tgAdd=new tabla_general();
         lista_ingredientes=new ArrayList<>();
@@ -367,16 +371,21 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
         if(!spn_unidad.getSelectedItem().toString().isEmpty()){
             itemAdd.setUnidad_gramaje(spn_unidad.getSelectedItem().toString());
         }
+
+        itemAdd.setEmailUsr(emailUser);
+
     }
 
     class loadItem_task extends AsyncTask<Integer, Integer, String> {
         @Override
         protected String doInBackground(Integer... params) {
+            cntChild=0;
+            flagFind=false;
             for(int i=0;i<referencias.size();i++){
-
                 mDataBase_Reference.child(referencias.get(i)).orderByChild(TAG_PRODUCTOS_nombre).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        cntChild++;
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                             item post = postSnapshot.getValue(item.class);
                             if(post!=null){
@@ -386,11 +395,18 @@ public class modificar extends AppCompatActivity implements addIngrediente.ingre
                                     keyItem=postSnapshot.getKey();
                                     refItem=postSnapshot.getRef().toString();
                                     mostrarItem();
-
+                                    flagFind=true;
                                     break;
                                 }
                             }
                         }
+
+                        if(!flagFind && (cntChild+1)==referencias.size()){
+                            Toast.makeText(modificar.this,getResources().getString(R.string.item_no_found),Toast.LENGTH_SHORT).show();
+                            limpiarItem();
+                            spn_categoria1.setSelection(0);
+                        }
+
                     }
 
                     @Override

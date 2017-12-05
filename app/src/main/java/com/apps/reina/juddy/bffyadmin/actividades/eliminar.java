@@ -69,7 +69,8 @@ public class eliminar extends AppCompatActivity {
     String nameProducto="";
     String keyItem="",refItem="";
 
-    int selCat1=0,selCat2=0;
+    int selCat1=0,selCat2=0,cntChild=0;
+    boolean flagFind=false;
     List<String> arrayCat1,arrayCat2,referencias;
 
     @Override
@@ -256,24 +257,33 @@ public class eliminar extends AppCompatActivity {
     class loadItem_task extends AsyncTask<Integer, Integer, String> {
         @Override
         protected String doInBackground(Integer... params) {
+            cntChild=0;
+            flagFind=false;
             for(int i=0;i<referencias.size();i++){
-
                 mDataBase_Reference.child(referencias.get(i)).orderByChild(TAG_PRODUCTOS_nombre).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
+                        cntChild++;
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                             item post = postSnapshot.getValue(item.class);
                             if(post!=null){
-
                                 if(post.getNombre().contentEquals(nameProducto)){
                                     itemShw=post;
                                     keyItem=postSnapshot.getKey();
                                     refItem=postSnapshot.getRef().toString();
                                     mostrarItem();
+                                    flagFind=true;
                                     break;
                                 }
                             }
                         }
+
+                        if(!flagFind && (cntChild+1)==referencias.size()){
+                            Toast.makeText(eliminar.this,getResources().getString(R.string.item_no_found),Toast.LENGTH_SHORT).show();
+                            limpiarItem();
+                            spn_categoria1.setSelection(0);
+                        }
+
                     }
 
                     @Override

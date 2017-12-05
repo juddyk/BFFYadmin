@@ -75,7 +75,8 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
             @Override
             public void onClick(View v) {
                 count=0;
-                startActivity(new Intent(MainActivity.this, ver.class));
+                Intent i = new Intent(MainActivity.this, ver.class);
+                startActivity(i);
             }
         });
 
@@ -83,7 +84,9 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
             @Override
             public void onClick(View v) {
                 count=0;
-                startActivity(new Intent(MainActivity.this, agregar.class));
+                Intent i = new Intent(MainActivity.this, agregar.class);
+                i.putExtra("emailUser",mAuth_user.getEmail());
+                startActivity(i);
             }
         });
 
@@ -91,7 +94,9 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
             @Override
             public void onClick(View v) {
                 count=0;
-                startActivity(new Intent(MainActivity.this, modificar.class));
+                Intent i = new Intent(MainActivity.this, modificar.class);
+                i.putExtra("emailUser",mAuth_user.getEmail());
+                startActivity(i);
             }
         });
 
@@ -99,7 +104,8 @@ public class MainActivity extends AppCompatActivity implements perfilUsuario.per
             @Override
             public void onClick(View v) {
                 count=0;
-                startActivity(new Intent(MainActivity.this, eliminar.class));
+                Intent i = new Intent(MainActivity.this, eliminar.class);
+                startActivity(i);
              }
         });
 

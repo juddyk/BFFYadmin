@@ -58,6 +58,7 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
 
     int selCat1=0,selCat2=0,selSubCat1=0,selSubCat2=0,selSubCat3=0,selSubCat4=0;
     List<String> arrayCat1,arrayCat2,arraySubCat1,arraySubCat2,arraySubCat3,arraySubCat4;
+    String emailUser="";
 
     item itemAdd;
     tabla_general tgAdd;
@@ -93,7 +94,53 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
         instanciarOBJETOS_interfaz();
         instanciarOBJETOS();
 
+        listener_spns();
+        listener_btns();
 
+        et_nombre.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                btn_guardar.setVisibility(View.VISIBLE);
+                rl_fragment.setVisibility(View.VISIBLE);
+                itemAdd.setNombre(s.toString());
+
+            }
+        });
+
+        tv_ingredientes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment dialog = new addIngrediente();
+
+                ArrayList<String> ingrs=new ArrayList<>();
+                ingrs.clear();
+                for(int i = 0; i<lista_ingredientes.size(); i++){
+                    ingrs.add(lista_ingredientes.get(i).getNombre());
+                }
+                if(ingrs.isEmpty()){
+                    ingrs.add("none");
+                }
+                Bundle bundle = new Bundle();
+                bundle.putStringArrayList("lista",ingrs);
+                dialog.setArguments(bundle);
+
+                dialog.show(getSupportFragmentManager(), getResources().getString(R.string.item_1));
+            }
+        });
+
+
+
+    }
+
+    void listener_spns(){
         //SELECCION CATEGORIA 1
         spn_categoria1.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
@@ -626,23 +673,9 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
             public void onNothingSelected(AdapterView<?> parent) {}
         });
 
-        et_nombre.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
+    }
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                btn_guardar.setVisibility(View.VISIBLE);
-                rl_fragment.setVisibility(View.VISIBLE);
-                itemAdd.setNombre(s.toString());
-
-            }
-        });
+    void listener_btns(){
 
         btn_UploadImg_pro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -663,27 +696,6 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                 intent.putExtra(Intent.EXTRA_LOCAL_ONLY, true);
 
                 startActivityForResult(Intent.createChooser(intent, getResources().getString(R.string.photo_selec)), RC_PHOTO_NUT);
-            }
-        });
-
-        tv_ingredientes.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DialogFragment dialog = new addIngrediente();
-
-                ArrayList<String> ingrs=new ArrayList<>();
-                ingrs.clear();
-                for(int i = 0; i<lista_ingredientes.size(); i++){
-                    ingrs.add(lista_ingredientes.get(i).getNombre());
-                }
-                if(ingrs.isEmpty()){
-                    ingrs.add("none");
-                }
-                Bundle bundle = new Bundle();
-                bundle.putStringArrayList("lista",ingrs);
-                dialog.setArguments(bundle);
-
-                dialog.show(getSupportFragmentManager(), getResources().getString(R.string.item_1));
             }
         });
 
@@ -749,8 +761,8 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
                 }
             }
         });
-
     }
+
 
     void limpiar_interfaz(){
         et_calorias.setText("");
@@ -780,6 +792,9 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
     }
 
     void instanciarOBJETOS(){
+
+        emailUser=getIntent().getExtras().getString("emailUser","");
+
 
         arrayCat1=Arrays.asList(getResources().getStringArray(R.array.categoria1));
         arrayCat2=Arrays.asList(getResources().getStringArray(R.array.categoria2));
@@ -861,6 +876,8 @@ public class agregar extends AppCompatActivity implements addIngrediente.ingredi
         if(!spn_unidad.getSelectedItem().toString().isEmpty()){
             itemAdd.setUnidad_gramaje(spn_unidad.getSelectedItem().toString());
         }
+
+        itemAdd.setEmailUsr(emailUser);
 
 
 
